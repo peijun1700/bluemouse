@@ -29,11 +29,13 @@ Click **"Add New Server"** and fill in the details:
 > **💡 Important**: You must use the **absolute path** to the `server.py` file on your computer.
 > Example: `/Users/peijunchen0410/Desktop/bluemouse_v6_release_final/server.py`
 
-#### Using the bundled start script (Easiest)
-If you prefer, you can point the command to our startup script:
+#### Using Python directly (Recommended)
+You should point directly to the python executable in the virtual environment:
 
-*   **Command**: `/Users/peijunchen0410/Desktop/bluemouse_v6_release_final/start_bluemouse.command`
-*   **Arguments**: (Leave empty)
+*   **Command**: `/Users/peijunchen0410/Desktop/bluemouse_v6_release_final/venv/bin/python`
+*   **Arguments**: `server.py`
+
+> **Note**: Do NOT use `start_bluemouse.command` for Cursor anymore. That script is now exclusively for the Standalone App (Web UI).
 
 ### Step 3: Verify Connection
 1. Cursor should show a green indicator (Operational).
