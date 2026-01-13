@@ -28,34 +28,36 @@
     *   **[EN]** Automatically detects 12 scenarios (Blog to Crypto) and adjusts security protocols dynamically.
     *   **[TW]** 自動識別 12 種場景（從部落格到加密貨幣交易），動態調整安全審查標準。
 
+### 🛡️ Enterprise Security (企業安全)
+*   **[隱私白皮書 (Privacy Whitepaper)](PRIVACY.md)**: 詳細說明 100% 本地化運行的技術細節。
+*   **[法規遵循 (License)](LICENSE)**: AGPLv3 授權，確保開源精神。
+
 ---
 
 ## 🚀 Getting Started (如何開始)
 
-**[EN]** We offer two modes for different users.
-**[TW]** 我們為不同需求的用戶提供兩種模式：
+我們為不同需求的用戶提供三種模式：
 
 ### 🅰️ For Vibe Coders (我是新手/Vibe Coder)
-> *"I don't want to see code. I just want it to work safely."*
 > *"我不想看代碼，我只想它能動，而且不要把我的電腦炸掉。"*
 
-👉 **直接點擊文件夾中的 `start_bluemouse.command` 即可啟動。**
-*(無需打開終端機，無需輸入任何命令)*
+👉 **直接點擊文件夾中的 `start_bluemouse.command` (Mac) 或 `start_bluemouse.bat` (Windows) 即可啟動。**
 
-👉 **[詳細圖文教學 (Download Guide)](DOWNLOAD_INSTRUCTIONS.md)**
+### 🅱️ For Professional Engineers (工程師模式)
+> *"我想整合 MCP 插件，並在我的專案中注入安全閥。"*
 
-### 🅱️ For Engineers (我是工程師)
-> *"I want to see the source code and modify it."*
-> *"我想看源代碼，我想魔改它。"*
+👉 **[MCP 安裝指南 (MCP Setup Guide)](USAGE_GUIDE.md)**
+👉 **[開發者進階工具 (Internal Tools)](internal_tools/README.md)** *(內含 18 萬筆數據訓練腳本)*
 
-👉 **[Developer Setup (開發者指南)](USAGE_GUIDE.md)**
+### 🅰️+🅱️ For Enterprise (企業級部署)
+> *"我們需要極致的安全性與離線環境。"*
+
+👉 **[隱私白皮書 (Privacy Whitepaper)](PRIVACY.md)**
 
 ```bash
-# Quick Start for Hackers
-git clone https://github.com/peijun1700/bluemouse.git
-cd bluemouse
+# Developer Installation
 pip install -r requirements.txt
-python server.py
+python run_standalone.py
 ```
 
 ---
