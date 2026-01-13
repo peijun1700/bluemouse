@@ -33,6 +33,7 @@ echo 👉 Please watch the browser popup.
 echo.
 
 start "" "bluemouse_saas.html"
-venv\Scripts\python api_server_v2.py
+start "" "bluemouse_saas.html"
+venv\Scripts\python server.py
 
 pause
