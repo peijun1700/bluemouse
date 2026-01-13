@@ -42,6 +42,7 @@ app.add_middleware(
 class SocraticRequest(BaseModel):
     requirement: str
     language: str = "zh-TW"
+    api_key: Optional[str] = None
 
 class CodeGenRequest(BaseModel):
     module: Dict[str, Any]
@@ -68,14 +69,16 @@ async def health_check():
 @app.post("/api/generate_socratic_questions")
 async def api_generate_socratic_questions(req: SocraticRequest):
     """Proxy to Socratic Generator."""
+    print(f"🔍 Socratic Request: lang={req.language}, req={req.requirement[:20]}...")
     if not generate_socratic_questions:
         raise HTTPException(status_code=500, detail="Socratic generator module missing")
     
     try:
-        result = await generate_socratic_questions(req.requirement, req.language)
+        result = await generate_socratic_questions(req.requirement, req.language, req.api_key)
+        print(f"✅ Socratic Result: {json.dumps(result, ensure_ascii=False)[:100]}...")
         return {"success": True, "questions": result.get("questions", [])}
     except Exception as e:
-        print(f"Error generating questions: {e}")
+        print(f"❌ Error generating questions: {e}")
         return JSONResponse(
             status_code=500, 
             content={"success": False, "error": str(e)}

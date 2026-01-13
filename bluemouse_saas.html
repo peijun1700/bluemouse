@@ -638,6 +638,7 @@
 <body>
     <!-- Language Switcher -->
     <div class="lang-switcher">
+        <button class="lang-btn" onclick="openSettings()" title="Settings" style="margin-right: 8px;">⚙️</button>
         <button class="lang-btn active" onclick="setLanguage('zh-TW')" id="btn-zh">中文</button>
         <button class="lang-btn" onclick="setLanguage('en-US')" id="btn-en">EN</button>
     </div>
@@ -783,10 +784,33 @@
             <div class="modal-actions">
                 <button class="btn-modal btn-modal-secondary" onclick="skipInterview()"
                     data-i18n="btn_skip">跳過面試</button>
-                <button class="btn-modal btn-modal-secondary" onclick="goBackToPrevious()"
-                    style="background: #6B7280;">↩️ 上一步</button>
+                <button class="btn-modal btn-modal-secondary" onclick="goBackToPrevious()" style="background: #6B7280;"
+                    data-i18n="btn_previous">↩️ 上一步</button>
                 <button class="btn-modal btn-modal-primary" onclick="submitAnswers()"
                     data-i18n="btn_submit">提交答案</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>⚙️ API Settings</h2>
+                <p>Unlock full AI intelligence with your own key (BYOK)</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 500;">API Key (Anthropic /
+                    OpenAI)</label>
+                <input type="password" id="apiKeyInput" class="input-neu" placeholder="sk-..."
+                    style="width: 100%; font-family: monospace;">
+                <p style="font-size: 12px; color: #6B7280; margin-top: 6px;">
+                    Keys are stored securely in your browser (LocalStorage) and sent directly to your local backend.
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal btn-modal-secondary" onclick="closeSettings()">Cancel</button>
+                <button class="btn-modal btn-modal-primary" onclick="saveSettings()">Save Configuration</button>
             </div>
         </div>
     </div>
@@ -885,6 +909,7 @@
                 "interview_title": "💡 讓我們微調一下邏輯",
                 "interview_subtitle": "這幾個選擇會影響系統穩定性，您傾向哪一種方案？",
                 "btn_skip": "稍後決定",
+                "btn_previous": "↩️ 上一步",
                 "btn_submit": "確認選擇",
                 "hint_completing": "還有 {count} 個關鍵決策等您確認 ✨",
                 "validating_concurrency": "正在檢查並發安全性...",
@@ -931,6 +956,8 @@
                 "interview_title": "💡 Let's Tune the Logic",
                 "interview_subtitle": "These choices will affect system stability. Which approach do you prefer?",
                 "btn_skip": "Decide Later",
+                "btn_back": "Back",
+                "btn_previous": "↩️ Previous Step",
                 "btn_submit": "Confirm Choices",
                 "hint_completing": "{count} key decisions awaiting your input ✨",
                 "validating_concurrency": "Checking concurrency safety...",
@@ -1089,9 +1116,9 @@
 
                 // 重新渲染問題
                 showSocratesModal();
-                showToast('↩️ 已返回上一步');
+                showToast(currentLang === 'zh-TW' ? '↩️ 已返回上一步' : '↩️ Previous step restored');
             } else {
-                showToast('⚠️ 已經是第一步了');
+                showToast(currentLang === 'zh-TW' ? '⚠️ 已經是第一步了' : '⚠️ Already at the first step');
             }
         }
 
@@ -1138,8 +1165,8 @@
             }
             // 通用錯誤
             else {
-                message = '❌ 生成失敗';
-                suggestion = error.message || '未知錯誤，請重試';
+                message = currentLang === 'zh-TW' ? '❌ 生成失敗' : '❌ Generation Failed';
+                suggestion = error.message || (currentLang === 'zh-TW' ? '未知錯誤，請重試' : 'Unknown error, please retry');
             }
 
             // 顯示友好的錯誤提示
@@ -1250,7 +1277,8 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         requirement: requirement,
-                        language: currentLang
+                        language: currentLang,
+                        api_key: localStorage.getItem('bluemouse_api_key') || null
                     })
                 });
 
@@ -1365,9 +1393,9 @@
                         <div class="question-text">${q.text}</div>
                         ${q.options.map((opt, oIndex) => `
                             <div class="option-card" onclick="selectOption('${q.id}', '${opt.value}', this)">
-                                <div class="option-label">${opt.label}</div>
-                                <div class="option-desc">${opt.description}</div>
-                                <div class="option-risk">⚠️ ${opt.risk_score}</div>
+                                <div class="option-label">${opt.label || opt.text || 'Option'}</div>
+                                <div class="option-desc">${opt.description || opt.desc || ''}</div>
+                                <div class="option-risk">⚠️ ${opt.risk_score || 'Unknown Risk'}</div>
                             </div>
                         `).join('')}
                     </div>
@@ -1428,7 +1456,8 @@
             const framework = document.getElementById('framework').value;
 
             try {
-                document.getElementById('statusText').textContent = '⚙️ 正在生成代碼...';
+                const generatingMsg = currentLang === 'zh-TW' ? '⚙️ 正在生成代碼...' : '⚙️ Generating code...';
+                document.getElementById('statusText').textContent = generatingMsg;
 
                 const response = await fetch('http://localhost:8001/api/generate_code', {
                     method: 'POST',
@@ -1508,9 +1537,9 @@
 
             const successMsg = currentLang === 'zh-TW' ? '邏輯看起來很棒！您的專案已就緒。' : 'Logic looks great! Your project is ready.';
             document.getElementById('resultContent').innerHTML = `
-                <p style="font-size: 18px; margin-bottom: 20px; color: var(--color-implemented);">
-                    ${successMsg}
-                </p>
+            < p style = "font-size: 18px; margin-bottom: 20px; color: var(--color-implemented);" >
+                ${successMsg}
+                </p >
                 <p style="font-size: 16px; margin-bottom: 20px;">
                     ${currentLang === 'zh-TW' ? `已生成 ${fileCount} 個核心文件` : `Generated ${fileCount} core files`}
                 </p>
@@ -1521,7 +1550,7 @@
                     style="padding: 16px 40px; background: linear-gradient(135deg, #10B981, #059669); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
                     📦 ${currentLang === 'zh-TW' ? '下載項目 ZIP' : 'Download Project ZIP'}
                 </button>
-            `;
+        `;
         }
 
         async function downloadProjectZIP() {
@@ -1539,7 +1568,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         blueprint: {
-                            title: `BlueMouse_${framework}_${Date.now()}`
+                            title: `BlueMouse_${framework}_${Date.now()} `
                         },
                         code: window.generatedCode,
                         diagrams: {},
@@ -1570,17 +1599,59 @@
         }
 
         // ===== Workspace Logic =====
+        // Settings Management
+        function openSettings() {
+            const key = localStorage.getItem('bluemouse_api_key') || '';
+            document.getElementById('apiKeyInput').value = key;
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function saveSettings() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('bluemouse_api_key', key);
+                showToast(currentLang === 'zh-TW' ? '✅ 設定已保存' : '✅ Settings Saved');
+            } else {
+                localStorage.removeItem('bluemouse_api_key');
+                showToast(currentLang === 'zh-TW' ? '🗑️ Key 已清除' : '🗑️ Key Cleared');
+            }
+            closeSettings();
+        }
+
         async function startGeneration() {
             const requirement = document.getElementById('requirement').value;
             const framework = document.getElementById('framework').value;
+            const btn = document.querySelector('.btn-generate');
 
             if (!requirement.trim()) {
                 alert(currentLang === 'zh-TW' ? '請輸入需求' : 'Please enter requirement');
                 return;
             }
 
-            // 觸發蘇格拉底面試 (添加 await)
-            await showSocratesModal();
+            // 1. 添加 Loading 狀態 (解決 "卡了" 的感覺)
+            const originalText = btn.textContent;
+            btn.textContent = currentLang === 'zh-TW' ? '🧠 正在思考陷阱...' : '🧠 Thinking...';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            btn.style.cursor = 'wait';
+
+            try {
+                // 2. 觸發蘇格拉底面試
+                await showSocratesModal();
+            } catch (e) {
+                console.error(e);
+                showToast(currentLang === 'zh-TW' ? '❌ 啟動失敗' : '❌ Start Failed');
+            } finally {
+                // 3. 恢復按鈕狀態
+                btn.textContent = originalText; // 這裡可能需要根據 data-i18n 恢復，但暫時恢復原文本即可
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            }
         }
 
         function sleep(ms) {
