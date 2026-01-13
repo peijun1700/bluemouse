@@ -11,6 +11,13 @@ NC='\033[0m'
 
 echo -e "${CYAN}🐭 正在啟動藍圖小老鼠 v6.0...${NC}"
 
+# 2. Check for API Keys (Optional but recommended)
+if [ -z "$ANTHROPIC_API_KEY" ] && [ -z "$OPENAI_API_KEY" ] && [ -z "$GEMINI_API_KEY" ]; then
+    echo "⚠️  [Warning] No API Keys detected in environment."
+    echo "   BlueMouse will run in 'Local Mode' (using Ollama if available)."
+    echo "   To use Cloud AI, please export ANTHROPIC_API_KEY or GEMINI_API_KEY in your .zshrc profile."
+fi
+
 # 3. 設置 API Key (請在這裡填入您的 Key)
 # export ANTHROPIC_API_KEY="AIzaSyAPspAV_s-2XYnvv5qfokQJaefy0YUmEy8"
 
