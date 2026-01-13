@@ -26,3 +26,9 @@ generated/
 
 # Logs
 *.log
+
+# Build Artifacts
+dist/
+build/
+*.spec
+packaging_env/

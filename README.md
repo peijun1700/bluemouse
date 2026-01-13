@@ -1,132 +1,74 @@
-# 🐭 BlueMouse v6.0 (Blueprint Little Mouse)
+# 🐭 BlueMouse (藍圖小老鼠) v6.1
+### The "Prefrontal Cortex" for Generative AI.
+**讓您的 AI 寫程式前，先經過「大腦」思考。**
 
-> **Stop Vibe Coding. Start Engineering.**
-> Reclaim your logic sovereignty from AI dilution.
-
-![Status](https://img.shields.io/badge/Status-Production%20Ready-green) ![Validation](https://img.shields.io/badge/Logic-17--Layer%20Secured-blue) ![MCP](https://img.shields.io/badge/Protocol-MCP%20Standard-orange) ![License](https://img.shields.io/badge/License-AGPLv3-red)
-
-[English](#english) | [繁體中文](#traditional-chinese)
+[![Status](https://img.shields.io/badge/Status-Global%20Mastery-blue?style=for-the-badge)](STATUS_REPORT_v6.0.md)
+[![License](https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge)](LICENSE)
+[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-green?style=for-the-badge)](FOUNDER_FAQ.md)
+[![Compatible](https://img.shields.io/badge/Works%20With-Cursor%20%7C%20Claude-purple?style=for-the-badge)](CURSOR_GUIDE.md)
 
 ---
 
-## English
+## 🌟 Why BlueMouse? (為什麼你需要它？)
+在 **Vibe Coding** 盛行的時代，AI 產生代碼的速度比我們閱讀的速度還快。
+但即使是最強的 AI (Claude 3.5 Sonnet) 也會出現邏輯幻覺。
 
-### 🌟 What is BlueMouse?
-BlueMouse is more than a tool; it is the **Prefrontal Cortex for GitHub Copilot**.
-While other AIs are busy "Vibe Coding" (coding based on intuition), we provide military-grade **Logic Gating** and **Architectural Auditing**.
+**BlueMouse 是您的安全氣囊 (Airbag)。**
+它不是另一個寫代碼的工具，它是**「阻止爛代碼發生」**的守門員。
 
-**Core Promise: Not a single line of code is generated until the green light is lit.**
+### 🔥 Core Features (核心強項)
+*   **🧠 Socratic Logic Gate (蘇格拉底門禁)**：
+    *   在 AI 動手寫 Code 之前，BlueMouse 會先對它進行「邏輯面試」。
+    *   *通過率僅 64%，確保只有想清楚的代碼能被執行。*
+*   **🛡️ 100% Data Privacy (絕對隱私)**：
+    *   **Zero Telemetry**。沒有任何數據會傳回給開發者。
+    *   適合注重 IP 安全的企業與個人開發者。
+*   **🌐 Self-Healing Context (動態修復)**：
+    *   自動識別 12 種場景（從部落格到加密貨幣交易），動態調整安全審查標準。
 
-### 🔥 The Pain
-- ❌ **Hallucination Flood**: Copilot is fast, but 30% of its output contains logic flaws.
-- ❌ **Asset Rot**: Code without architectural constraints becomes technical debt in 3 months.
-- ❌ **Loss of Sovereignty**: Engineers are reduced to reviewers who don't understand what the AI wrote.
+---
 
-### 🛡️ The Solution: 3 Lines of Defense
+## 🚀 Getting Started (如何開始)
 
-#### 1. 🚦 Traffic Light Sentinel
-Dependencies not met? Requirements vague?
-**HTTP 403 Forbidden**. We lock the code generation interface until you clarify the logic.
+我們為不同需求的用戶提供兩種模式：
 
-#### 2. 🎓 Socratic Interview
-High-risk requirement detected (e.g., concurrent transactions, asset manipulation)?
-The system pauses and switches to interview mode: *"How should we handle the funds if the DB rollback fails?"*
-**No answer, no code.**
+### 🅰️ For Vibe Coders (我是新手/Vibe Coder)
+> *"我不想看代碼，我只想它能動，而且不要把我的電腦炸掉。"
+👉 **[Download & Run (懶人包指南)](DOWNLOAD_INSTRUCTIONS.md)**
+*(包含如何生成 One-Click 執行檔的教學)*
 
-#### 3. 🧬 17-Layer Validation Chain
-Every generated line passes through the `validate_code_17_layers` pipeline:
-- **L1-L4**: Syntax & AST Structure
-- **L5-L8**: Function Signatures & Type Hints
-- **L9-L12**: Dependency & Circular Reference Check
-- **L13-L17**: Logic Consistency & Performance Boundaries
-
-### 🚀 Quick Start
-
-#### Option A: Install as MCP Server (Recommended)
-Add this directory to your **Antigravity** or **Claude Desktop** configuration:
+### 🅱️ For Engineers (我是工程師)
+> *"我想看源代碼，我想魔改它。"
+👉 **[Developer Setup (開發者指南)](USAGE_GUIDE.md)**
 
 ```bash
-# Mac/Linux One-Click Setup
-./start_bluemouse.command
-
-# Windows
-start_bluemouse.bat
-```
-
-#### Option B: Python Developer Mode
-```bash
+# Quick Start for Hackers
+git clone https://github.com/peijun1700/bluemouse.git
+cd bluemouse
 pip install -r requirements.txt
 python server.py
 ```
 
-### 📊 Vital Statistics
-- Hallucinations Intercepted: **180,400+**
-- Debug Time Saved: **4.5 hours/week (avg)**
-- 17-Layer Pass Rate: **Only 64%** (This is why you need it)
+---
+
+## 🤝 Works Best With (完美支援)
+
+| Platform | Status | Guide |
+| :--- | :--- | :--- |
+| **Cursor** | ✅ Native Support | [Read Guide](CURSOR_GUIDE.md) |
+| **Antigravity** | ✅ Native Support | Built-in |
+| **VS Code** | ⚠️ Beta | Via MCP Extension |
 
 ---
 
-## Traditional Chinese
+## 📜 Philosophy (產品哲學)
+> **"Stop Vibe Coding. Start Engineering."**
+> (別再只是憑感覺寫 Code，開始真正的工程構建。)
 
-### 🌟 這是什麼？
-BlueMouse 不僅僅是一個工具，它是 **GitHub Copilot 的「大腦前葉」**。
-當其他 AI 還在「憑感覺寫 Code (Vibe Coding)」時，我們提供軍規級的 **邏輯門禁 (Logic Gating)** 與 **架構審查**。
+BlueMouse 是一個由 **AGPLv3** 保護的開源項目。
+這意味著任何使用此代碼的企業產品，都必須回饋社群。這是我們對抗大科技壟斷的武器。
 
-**核心承諾：不亮綠燈，絕不生成一行代碼。**
-
-### 🔥 為什麼您需要它？(The Pain)
-- ❌ **AI 幻覺濫觴**：Copilot 寫得很爽，但 30% 都是邏輯漏洞。
-- ❌ **資產腐爛**：沒有架構約束的代碼，3 個月後就是技術債。
-- ❌ **邏輯主權喪失**：工程師淪為 Reviewer，卻看不懂 AI 寫了什麼。
-
-### 🛡️ 三道防線 (The Solution)
-
-#### 1. 🚦 Traffic Light Sentinel (紅綠燈哨兵)
-依賴上游節點未完成、需求規格模糊？
-**紅燈伺候 (HTTP 403 Forbidden)**。我們會直接鎖死代碼生成接口，直到您釐清邏輯。
-
-#### 2. 🎓 Socratic Interview (蘇格拉底面試)
-檢測到高風險需求（如：併發交易、資產操作）？
-系統自動暫停，切換至面試模式：「如果資料庫回滾失敗，這筆錢該怎麼辦？」
-**不回答問題，別想繼續。**
-
-#### 3. 🧬 17-Layer Validation (十七層驗證鏈)
-每一段生成的代碼都必須通過 17 道工序的 `validate_code_17_layers` 檢測：
-- L1-L4: 語法與 AST 結構
-- L5-L8: 函數簽名與型別提示 (Type Hints)
-- L9-L12: 依賴關係與循環引用
-- L13-L17: 邏輯一致性與性能邊界
-
-### 🚀 快速開始 (Quick Start)
-
-#### 方式 A: 安裝為 MCP Server (推薦)
-如果您使用 **Antigravity** 或 **Claude Desktop**，只需將此目錄加入設定：
-
-```bash
-# Mac/Linux 一鍵啟動 (自動配置)
-./start_bluemouse.command
-
-# Windows
-start_bluemouse.bat
-```
-
-#### 方式 B: Python 開發者模式
-```bash
-# 安裝
-pip install -r requirements.txt
-
-# 啟動 Server
-python server.py
-```
-
-### 📊 數據實力
-- 已攔截邏輯幻覺：**180,400+ 次**
-- 節省 Debug 時間：**平均 4.5 小時/週**
-- 17 層驗證通過率：**僅 64%** (這就是為什麼您需要它)
+[**Read the Founder's Strategy (創辦人宣言)**](FOUNDER_FAQ.md)
 
 ---
-
-### ✅ Cursor Integration
-Using Cursor? We support it natively!
-👉 **[Read the Cursor Setup Guide](CURSOR_GUIDE.md)**
-
+*Built with ❤️ and Logic by [Peijun1700](https://github.com/peijun1700).*
