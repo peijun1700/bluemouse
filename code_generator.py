@@ -302,7 +302,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({'message': message}))
 """,
                 "views.py": "# 聊天室使用 WebSocket (Channels)，此處僅為 HTTP API\nfrom django.shortcuts import render\n\ndef index(request):\n    return render(request, 'chat/index.html')\n",
-                 "routing.py": """from django.urls import re_path
+                 "routing.py": r"""from django.urls import re_path
 from . import consumers
 
 websocket_urlpatterns = [
