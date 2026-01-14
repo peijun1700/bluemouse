@@ -111,8 +111,8 @@ async def api_generate_code(req: CodeGenRequest):
         raise HTTPException(status_code=500, detail="Code generator module missing")
 
     try:
-        # Pass empty list for answers as demo logic largely ignores it or handles it internally
-        result = generate_code(req.module, [], req.framework)
+        # Pass user answers to generate customized code
+        result = generate_code(req.module, req.answers, req.framework)
         return {"success": True, "code": result}
     except Exception as e:
         print(f"Error generating code: {e}")

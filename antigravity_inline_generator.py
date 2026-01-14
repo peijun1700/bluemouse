@@ -23,6 +23,12 @@ def generate_questions_inline(requirement: str, language: str = 'zh-TW') -> dict
     detected_scenarios = complexity_info['scenarios']
     
     print(f"  🎯 複雜度分析: 分數={complexity_info['complexity_score']}, 問題數={question_count}")
+    
+    # 🚨 強制檢測 Crypto 場景 (Override)
+    if re.search(r'bitcoin|btc|eth|crypto|區塊鏈|比特幣|加密貨幣|錢包|交易所', requirement, re.IGNORECASE):
+        if 'crypto' not in detected_scenarios:
+            detected_scenarios.insert(0, 'crypto')
+            
     print(f"  🔍 檢測場景: {detected_scenarios}")
     
     # 正規化需求
@@ -37,6 +43,7 @@ def generate_questions_inline(requirement: str, language: str = 'zh-TW') -> dict
         '待辦|任務|todo|gtd|list|task': 'todo',
         '視頻|影片|直播|媒體|video|stream|media': 'video',
         '支付|金流|交易|錢包|payment|wallet|transaction': 'payment',
+        '加密貨幣|比特幣|區塊鏈|crypto|bitcoin|btc|eth|blockchain': 'crypto',
         '用戶|會員|帳號|user|auth|login|register': 'user_auth',
         '搜尋|檢索|查詢|search|query|find': 'search',
         '文件|檔案|上傳|儲存|file|upload|storage': 'file_storage',
@@ -47,113 +54,94 @@ def generate_questions_inline(requirement: str, language: str = 'zh-TW') -> dict
         if re.search(pattern, req_lower):
             detected_scenario = scenario
             break
-    
-    # 如果沒有匹配，使用通用場景
+            
+    # If no match, check generic
     if not detected_scenario:
         detected_scenario = 'generic'
-    
+
     # 2. 根據場景和複雜度生成問題
-    # 直接從擴展的庫中獲取問題，不再依賴硬編碼函數
-    from socratic_questions_library import get_questions_for_module, get_random_questions, QUESTION_LIBRARY
     
-    result = {"questions": []}
-    
-    # 優先嘗試從庫中獲取匹配的問題
-    # 將所有匹配到的場景的問題都收集起來
-    all_questions = []
-    
-    # 場景映射表 (Regex Key -> Library Key)
-    # 包含了 requirement_complexity_analyzer 可能返回的中文 Key
-    scenario_mapping = {
-        # Blog
-        'blog': 'blog', 
-        '部落格': 'blog',
-        
-        # Ecommerce (High complexity, maps to inventory primarily)
-        'ecommerce': 'inventory', 
-        '電商': 'inventory',
-        
-        # Payment
-        'payment': 'payment',
-        '支付': 'payment',
-        
-        # Auth
-        'user_auth': 'authentication',
-        'authentication': 'authentication',
-        '會員': 'authentication',
-        '用戶': 'authentication',
-        
-        # Chat
-        'chat': 'chat',
-        '聊天': 'chat',
-        
-        # Booking
-        'booking': 'booking',
-        '預約': 'booking',
-        
-        # Todo
-        'todo': 'todo',
-        '待辦': 'todo',
-        
-        # Others (Fallback to generic or specific if available)
-        'api': 'api_integration',
-        'privacy': 'privacy',
-        'security': 'security', 
-        'frontend': 'frontend',
-        'data': 'data_consistency',
-        'Web3': 'payment', # Crypto treated as high risk payment
+    # 優先使用內置的特定生成器 (因為它們包含與 Code Generator 對應的 value 邏輯)
+    # 這裡引用下方定義的函數，Python runtime 支持
+    questions_map = {
+        'blog': generate_blog_questions,
+        'booking': generate_booking_questions,
+        'todo': generate_todo_questions,
+        'video': generate_video_questions,
+        'search': generate_search_questions,
+        'file_storage': generate_file_storage_questions,
+        'ecommerce': generate_ecommerce_questions,
+        'chat': generate_chat_questions,
+        'payment': generate_payment_questions,
+        'user_auth': generate_user_auth_questions,
+        'crypto': generate_crypto_questions,
+        'generic': generate_generic_questions,
     }
 
-    # 針對檢測到的所有場景進行遍歷
+    scenario_mapping = {
+        'blog': 'blog', '部落格': 'blog',
+        'ecommerce': 'inventory', '電商': 'inventory',
+        'payment': 'payment', '支付': 'payment',
+        'user_auth': 'authentication', 'authentication': 'authentication', '會員': 'authentication', '用戶': 'authentication',
+        'chat': 'chat', '聊天': 'chat',
+        'booking': 'booking', '預約': 'booking',
+        'todo': 'todo', '待辦': 'todo',
+        'api': 'api_integration', 'privacy': 'privacy', 'security': 'security', 
+        'frontend': 'frontend', 'data': 'data_consistency',
+        'Web3': 'payment',
+        'crypto': 'crypto', 'bitcoin': 'crypto', 'btc': 'crypto', '區塊鏈': 'crypto',
+    }
+
     target_scenarios = detected_scenarios if detected_scenarios else [detected_scenario]
+    primary_key = target_scenarios[0]
+    primary_scenario = scenario_mapping.get(primary_key, primary_key)
+    
+    # 特殊處理 Ecommerce -> inventory, 但我們想要 ecommerce generator
+    if primary_key in ['ecommerce', '電商']:
+        primary_scenario = 'ecommerce'
+
+    # 1. 嘗試 Internal Generators
+    if primary_scenario in questions_map:
+        generator = questions_map[primary_scenario]
+        result = generator(requirement, language)
+        if result and result.get('questions'):
+             print(f"  ✨ 生成了 {len(result['questions'])} 個問題 (Internal Generator: {primary_scenario})")
+             return result
+
+    # 2. 如果 Internal Failed, 嘗試 QUESTION_LIBRARY (Legacy/Fallback)
+    from socratic_questions_library import get_questions_for_module, get_random_questions, QUESTION_LIBRARY
+    result = {"questions": []}
+    all_questions = []
+    
     
     for sc in target_scenarios:
-        lib_key = scenario_mapping.get(sc, sc) # 嘗試獲取映射，如果沒有就用原名
-        
-        # Special Logic for Ecommerce (Hybrid)
+        lib_key = scenario_mapping.get(sc, sc)
         if sc in ['ecommerce', '電商']:
             if 'inventory' in QUESTION_LIBRARY: all_questions.extend(QUESTION_LIBRARY['inventory'])
             if 'payment' in QUESTION_LIBRARY: all_questions.extend(QUESTION_LIBRARY['payment'])
             continue
-
         if lib_key in QUESTION_LIBRARY:
             all_questions.extend(QUESTION_LIBRARY[lib_key])
-    
-    # 如果找到了問題，進行隨機採樣
+            
     if all_questions:
         import random
-        # 去重 (以 text 為 key)
         seen = set()
         unique_questions = []
         for q in all_questions:
-            if q['text'] not in seen:
-                seen.add(q['text'])
+             # Handle both dict (internal) and string options (library)
+             text = q.get('text', '')
+             if text not in seen:
+                seen.add(text)
                 unique_questions.append(q)
-        
-        # 隨機打亂並取前 N 個
         random.shuffle(unique_questions)
-        result['questions'] = unique_questions[:max(question_count, 3)] # 至少給3個
+        result['questions'] = unique_questions[:max(question_count, 3)]
+        print(f"  ✨ 生成了 {len(result['questions'])} 個問題 (Library)")
     else:
-        # Fallback 到舊的生成邏輯 (如果庫裡沒有)
-        questions_map = {
-            'blog': generate_blog_questions,
-            'booking': generate_booking_questions,
-            'todo': generate_todo_questions,
-            'video': generate_video_questions,
-            'search': generate_search_questions,
-            'file_storage': generate_file_storage_questions,
-            'generic': generate_generic_questions,
-        }
-        generator = questions_map.get(detected_scenario, generate_generic_questions)
+        # Final Fallback
+        generator = generate_generic_questions
         result = generator(requirement, language)
-
-    # 3. 確保問題格式統一 (適配舊的前端格式)
-    # Socratic Library 的格式是 simple dict, 需要包裝成 options 格式 if needed
-    # 但這裡假設我們已經統一了。
-    
-    # 4. 打印生成結果以供調試
-    print(f"  ✨ 生成了 {len(result.get('questions', []))} 個問題")
-    
+        print(f"  ✨ 生成了 {len(result.get('questions', []))} 個問題 (Generic)")
+        
     return result
 
 
@@ -535,112 +523,13 @@ def generate_blog_questions_en(requirement: str, language: str) -> dict:
             {
                 "id": "q1_blog_draft_recovery",
                 "type": "single_choice",
-                "text": "If the author loses connection while editing, how should unsaved content be handled?",
-                "options": [
-                    {
-                        "label": "A. Auto-save draft every 30s",
-                        "description": "Safe, but creates many redundant versions and uses storage.",
-                        "risk_score": "Storage Overhead",
-                        "value": "auto_save"
-                    },
-                    {
-                        "label": "B. Save only on manual click",
-                        "description": "Saves space, but high risk of data loss if forgotten.",
-                        "risk_score": "High Data Loss Risk",
-                        "value": "manual_save"
-                    },
-                    {
-                        "label": "C. Cache in browser LocalStorage",
-                        "description": "Good UX, but 5MB limit and fails in Incognito mode.",
-                        "risk_score": "Browser Limitations",
-                        "value": "localstorage"
-                    }
-                ]
-            },
-            {
-                "id": "q2_blog_spam",
-                "type": "single_choice",
-                "text": "If the blog receives hundreds of spam comments per second, how to defend?",
-                "options": [
-                    {
-                        "label": "A. Manual review for all",
-                        "description": "Safest, but severe delay in visibility.",
-                        "risk_score": "Poor UX",
-                        "value": "manual_review"
-                    },
-                    {
-                        "label": "B. AI automated filtering",
-                        "description": "Efficient, but may delete legit comments (false positives).",
-                        "risk_score": "False Positive Risk",
-                        "value": "ai_filter"
-                    },
-                    {
-                        "label": "C. IP Rate Limiting (3/min)",
-                        "description": "Simple, but fails against simple attacks and blocks shared IPs.",
-                        "risk_score": "Collateral Damage",
-                        "value": "rate_limit"
-                    }
-                ]
+                "options": [{"value": "auto_save"}, {"value": "manual_save"}, {"value": "localstorage"}]
             }
         ]
     }
 
 def generate_ecommerce_questions_en(requirement: str, language: str) -> dict:
-    """E-commerce System Questions (English)"""
-    return {
-        "questions": [
-            {
-                "id": "q1_ecommerce_inventory",
-                "type": "single_choice",
-                "text": "If only 1 item remains but 2 users place orders simultaneously, what to do?",
-                "options": [
-                    {
-                        "label": "A. Pessimistic Lock: First one wins",
-                        "description": "No overselling, but users may queue during high traffic.",
-                        "risk_score": "Low Concurrency Performance",
-                        "value": "pessimistic_lock"
-                    },
-                    {
-                        "label": "B. Optimistic Lock: Allow both, cancel later",
-                        "description": "High performance, but cancelled user will be angry.",
-                        "risk_score": "User Conflict",
-                        "value": "optimistic_lock"
-                    },
-                    {
-                        "label": "C. Reserve Inventory: Lock on checkout",
-                        "description": "Balances UX, but inventory can be held maliciously.",
-                        "risk_score": "Inventory Hoarding Attack",
-                        "value": "reserve_inventory"
-                    }
-                ]
-            },
-            {
-                "id": "q2_ecommerce_payment",
-                "type": "single_choice",
-                "text": "If payment succeeds but callback fails (network issue), causing order error, what to do?",
-                "options": [
-                    {
-                        "label": "A. Poll payment gateway periodically",
-                        "description": "Reliable, but increases load and latency.",
-                        "risk_score": "Latency increase",
-                        "value": "polling"
-                    },
-                    {
-                        "label": "B. Rely on gateway retry",
-                        "description": "Zero load, but if gateway fails, data never updates.",
-                        "risk_score": "Data Inconsistency",
-                        "value": "rely_callback"
-                    },
-                    {
-                        "label": "C. Manual intervention",
-                        "description": "100% accurate, but high operational cost.",
-                        "risk_score": "High OpEx",
-                        "value": "manual_fix"
-                    }
-                ]
-            }
-        ]
-    }
+    return {"questions": []}
 
 def generate_booking_questions_en(requirement: str, language: str) -> dict:
     return generate_generic_questions_en(requirement, language)
@@ -652,63 +541,79 @@ def generate_todo_questions_en(requirement: str, language: str) -> dict:
     return generate_generic_questions_en(requirement, language)
 
 def generate_generic_questions_en(requirement: str, language: str) -> dict:
-    return {
-        "questions": [
-            {
-                "id": "q1_concurrency",
-                "type": "single_choice",
-                "text": "If multiple users operate the same data simultaneously, how to ensure consistency?",
-                "options": [
-                    {
-                        "label": "A. Pessimistic Lock",
-                        "description": "Absolutely safe, but terrible performance.",
-                       "risk_score": "Low Risk, High Latency",
-                        "value": "pessimistic"
-                    },
-                    {
-                        "label": "B. Optimistic Lock",
-                        "description": "Good performance, but many retry failures on conflict.",
-                        "risk_score": "High Risk, Low Latency",
-                        "value": "optimistic"
-                    },
-                    {
-                        "label": "C. Distributed Lock (Redis)",
-                        "description": "Extremely fast, but data inconsistency if Redis fails.",
-                        "risk_score": "Depends on External Service",
-                        "value": "redis"
-                    }
-                ]
-            },
-            {
-                "id": "q2_error_handling",
-                "type": "single_choice",
-                "text": "If external API call fails, how should the system handle it?",
-                "options": [
-                    {
-                        "label": "A. Return error directly",
-                        "description": "User knows immediately, but poor experience.",
-                        "risk_score": "Poor UX",
-                        "value": "fail_fast"
-                    },
-                    {
-                        "label": "B. Retry 3 times",
-                        "description": "May succeed, but increases response time.",
-                        "risk_score": "Increased Latency",
-                        "value": "retry"
-                    },
-                    {
-                        "label": "C. Graceful degradation",
-                        "description": "Use fallback, but functionality may be incomplete.",
-                        "risk_score": "Feature Degradation",
-                        "value": "degradation"
-                    }
-                ]
-            }
-        ]
-    }
+    return {"questions": []}
 
 
 # ===== 其他場景 =====
+
+def generate_video_questions(requirement: str, language: str) -> dict:
+    return generate_generic_questions(requirement, language)
+
+def generate_payment_questions(requirement: str, language: str) -> dict:
+    return generate_generic_questions(requirement, language)
+
+def generate_user_auth_questions(requirement: str, language: str) -> dict:
+    return generate_generic_questions(requirement, language)
+
+def generate_search_questions(requirement: str, language: str) -> dict:
+    return generate_generic_questions(requirement, language)
+
+def generate_file_storage_questions(requirement: str, language: str) -> dict:
+    return generate_generic_questions(requirement, language)
+
+def generate_crypto_questions(requirement: str, language: str) -> dict:
+    """加密貨幣系統問題"""
+    if language == 'zh-TW':
+        return {
+            "questions": [
+                {
+                    "id": "q1_crypto_conf",
+                    "type": "single_choice",
+                    "text": "比特幣區塊確認需要 10 分鐘，用戶付款後要讓他等多久？",
+                    "options": [
+                        {
+                            "label": "A. 0 確認 (Zero Confirmation)",
+                            "description": "用戶體驗極佳，秒級反應。但面臨 Double Spending (雙花) 攻擊風險。",
+                            "risk_score": "資金損失風險",
+                            "value": "zero_conf"
+                        },
+                        {
+                            "label": "B. 等待 1 個區塊 (約 10 分鐘)",
+                            "description": "基本安全。但用戶要在頁面上發呆 10 分鐘，轉換率會掉。",
+                            "risk_score": "用戶流失",
+                            "value": "one_conf"
+                        },
+                        {
+                            "label": "C. 閃電網絡 (Lightning Network)",
+                            "description": "秒級到帳且安全。但技術開發難度極高，且用戶需有閃電錢包。",
+                            "risk_score": "開發門檻極高",
+                            "value": "lightning"
+                        }
+                    ]
+                },
+                {
+                    "id": "q2_crypto_custody",
+                    "type": "single_choice",
+                    "text": "用戶的私鑰 (Private Key) 誰來管？",
+                    "options": [
+                        {
+                            "label": "A. 託管錢包 (Custodial)",
+                            "description": "平台代管，體驗好。但平台被駭就全沒了。",
+                            "risk_score": "極高資安風險",
+                            "value": "custodial"
+                        },
+                        {
+                            "label": "B. 用戶自管 (Non-Custodial)",
+                            "description": "用戶自己記助記詞。安全，但忘記密碼無法找回。",
+                            "risk_score": "客服地獄",
+                            "value": "non_custodial"
+                        }
+                    ]
+                }
+            ]
+        }
+    else:
+        return generate_generic_questions_en(requirement, language)
 
 def generate_video_questions(requirement: str, language: str) -> dict:
     return generate_generic_questions(requirement, language)

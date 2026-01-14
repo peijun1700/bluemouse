@@ -35,7 +35,7 @@ def is_generic_fallback(result: dict) -> bool:
     
     # 檢查第一個問題的 ID 是否為通用問題 ID
     first_id = result['questions'][0].get('id', '')
-    return first_id in ['q1_concurrency', 'q2_privacy', 'q3_scalability', 'q1_blog_draft_recovery', 'q1_ecommerce_inventory']
+    return first_id in ['q1_concurrency', 'q2_privacy', 'q3_scalability']
 
 
 async def generate_socratic_questions(requirement: str, language: str = 'zh-TW', api_key: str = None) -> dict:
@@ -96,6 +96,11 @@ def layer1_antigravity_inline(requirement: str, language: str) -> dict:
             raise ValueError("規則庫未覆蓋此場景")
         
         print(f"  [1/4] ✅ Antigravity 內聯生成成功 (<100ms)")
+        
+        # Normalize questions
+        if "questions" in result:
+             result["questions"] = [normalize_question_format(q) for q in result["questions"]]
+             
         return result
         
     except ImportError:
@@ -236,6 +241,40 @@ def load_knowledge_base():
 load_knowledge_base()
 
 
+def normalize_question_format(question: dict) -> dict:
+    """
+    Standardize question format to match Frontend expectations.
+    Converts legacy 'options' list of strings + 'risk_analysis' dict
+    into 'options' list of objects.
+    """
+    if not isinstance(question.get("options", []), list):
+        return question
+
+    # Check if options are strings (Legacy Format)
+    if question["options"] and isinstance(question["options"][0], str):
+        new_options = []
+        risk_map = question.get("risk_analysis", {})
+        
+        for idx, opt_text in enumerate(question["options"]):
+            # Extract key from text (e.g., "A. Option" -> "option_a")
+            # But here we just use index 0, 1, 2...
+            risk_key = str(idx)
+            risk_score = risk_map.get(risk_key, "Unknown Risk")
+            
+            # Try to parse "A. Label" if present
+            label = opt_text
+            
+            new_options.append({
+                "label": label,
+                "description": "",  # Legacy format might not have descriptions
+                "risk_score": risk_score,
+                "value": f"opt_{idx}"
+            })
+        question["options"] = new_options
+    
+    return question
+
+
 def robust_parse_ai_json(text: str) -> dict:
     """
     Robust JSON parser specifically for Socratic Questions.
@@ -257,12 +296,17 @@ def robust_parse_ai_json(text: str) -> dict:
         # Parse
         data = json.loads(text)
         
-        # Validate & Inject Defaults
+        # Validate & Inject Defaults & Normalize
         if "questions" in data:
+            normalized_questions = []
             for q in data["questions"]:
+                
+                # Normalize first
+                q = normalize_question_format(q)
+                
                 if "options" in q:
                     for opt in q["options"]:
-                        if "risk_score" not in opt:
+                        if isinstance(opt, dict) and "risk_score" not in opt:
                             # Inject default risk score based on option logic or generic text
                             opt["risk_score"] = "Potential Trade-off"
                             
@@ -274,6 +318,9 @@ def robust_parse_ai_json(text: str) -> dict:
                                 opt["risk_score"] = "開發成本高"
                             elif "險" in desc or "risk" in desc.lower():
                                 opt["risk_score"] = "潛在風險"
+                
+                normalized_questions.append(q)
+            data["questions"] = normalized_questions
                             
         return data
     except Exception as e:
@@ -322,6 +369,9 @@ def layer4_fallback(requirement: str, language: str) -> dict:
         
         # If successfully fused questions, return
         if fused_questions:
+            # Normalize all fused questions
+            fused_questions = [normalize_question_format(q) for q in fused_questions]
+            
             return {
                 "questions": fused_questions,
                 "template_id": f"fusion_{'_'.join(matched_keys + static_cats)}"
@@ -364,7 +414,10 @@ def detect_static_categories(req: str) -> list:
     if any(k in req for k in ['video', 'stream', 'music', 'blog', 'news', 'cms', '影音', '直播', '新聞', '內容', '文章', 'netflix', 'youtube', 'movie', 'film', 'spotify']):
         categories.add('content')
         
-    if any(k in req for k in ['bank', 'finance', 'money', 'wallet', 'ledger', 'coin', '銀行', '金融', '錢包', '帳本', '支付', '幣', '區塊鏈', 'blockchain', 'crypto']):
+    if any(k in req for k in ['bitcoin', 'btc', 'eth', 'crypto', 'blockchain', 'wallet', 'coin', '區塊鏈', '比特幣', '加密貨幣']):
+        categories.add('crypto')
+
+    if any(k in req for k in ['bank', 'finance', 'money', 'ledger', '銀行', '金融', '帳本', '支付', 'pay']):
         categories.add('fintech')
         
     if any(k in req for k in ['saas', 'crm', 'erp', 'tenant', 'b2b', '管理', '企業', '租戶']):
@@ -545,6 +598,61 @@ TEMPLATE_LIBRARY = {
                         "description": "自動搬移。費用不確定，帳單可能會忽高忽低。",
                         "risk_score": "成本不可預測",
                         "value": "tiering"
+                    }
+                ]
+            }
+        ]
+    },
+    
+    'crypto': lambda lang: {
+        "questions": [
+            {
+                "id": "crypto_zero_conf",
+                "type": "single_choice",
+                "text": "比特幣區塊確認需要 10 分鐘，用戶付款後要讓他等多久？" if lang == 'zh-TW' else "Bitcoin block confirmation takes 10 mins. How long should users wait?",
+                "options": [
+                    {
+                        "label": "A. 0 確認 (Zero Confirmation)",
+                        "description": "用戶體驗極佳，秒級反應。但面臨 Double Spending (雙花) 攻擊風險。",
+                        "risk_score": "資金損失風險",
+                        "value": "zero_conf"
+                    },
+                    {
+                        "label": "B. 等待 1 個區塊 (約 10 分鐘)",
+                        "description": "基本安全。但用戶要在頁面上發呆 10 分鐘，轉換率會掉。",
+                        "risk_score": "用戶流失",
+                        "value": "one_conf"
+                    },
+                    {
+                        "label": "C. 閃電網絡 (Lightning Network)",
+                        "description": "秒級到帳且安全。但技術開發難度極高，且用戶需有閃電錢包。",
+                        "risk_score": "開發門檻極高",
+                        "value": "lightning"
+                    }
+                ]
+            },
+            {
+                "id": "crypto_custody",
+                "type": "single_choice",
+                "text": "用戶的比特幣私鑰 (Private Key) 誰來管？" if lang == 'zh-TW' else "Who manages the Private Keys?",
+                "options": [
+                    {
+                        "label": "A. 託管錢包 (Custodial / Hot Wallet)",
+                        "description": "我們幫用戶管。體驗好 (像銀行)，但如果我們被駭，所有人的錢都沒了。",
+                        "risk_score": "極高資安風險",
+                        "value": "custodial"
+                    },
+                    {
+                        "label": "B. 用戶自管 (Non-Custodial)",
+                        "description": "用戶自己記私鑰。最安全，但用戶弄丟私鑰就找不回來了。",
+                        "risk_score": "客服地獄",
+                        "value": "non_custodial"
+                    },
+                    {
+                        "label": "C. 多重簽名 (Multi-Sig)",
+                        "description": "管理者和冷錢包共管。安全，但提款流程複雜。",
+                        "risk_score": "營運效率低",
+                        "value": "multisig"
                     }
                 ]
             }

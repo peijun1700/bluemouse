@@ -84,7 +84,8 @@ def generate_django_code(module: Dict[str, Any], answers: List[int]) -> Dict[str
     try:
         from django_generator import generate_django_code as django_gen
         return django_gen(module, answers)
-    except ImportError:
+    except (ImportError, Exception) as e:
+        print(f"Django Generation Error: {e}")
         return generate_mock_code(module.get('name', 'demo'), 'Django')
 
 
