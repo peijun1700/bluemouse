@@ -22,6 +22,11 @@ import json
 import os
 import asyncio
 
+try:
+    from antigravity_inline_generator import generate_questions_inline
+except ImportError:
+    generate_questions_inline = None
+
 
 def is_generic_fallback(result: dict) -> bool:
     """判斷結果是否為通用保底題目"""
@@ -81,7 +86,8 @@ def layer1_antigravity_inline(requirement: str, language: str) -> dict:
     如果規則庫未覆蓋，拋出異常進入下一層
     """
     try:
-        from antigravity_inline_generator import generate_questions_inline
+        if generate_questions_inline is None:
+            raise ValueError("antigravity_inline_generator 未找到")
         
         result = generate_questions_inline(requirement, language)
         
