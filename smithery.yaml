@@ -4,7 +4,7 @@
 type: python
 name: bluemouse
 description: "BlueMouse (藍圖小老鼠) - The Prefrontal Cortex for Generative AI. A data-driven logic gate server protecting against AI hallucinations with 134MB+ of trap records."
-version: 6.1.1
+version: 6.1.2
 author: Peijun1700
 repository: https://github.com/peijun1700/bluemouse
 
