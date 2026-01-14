@@ -11,8 +11,8 @@ repository: https://github.com/peijun1700/bluemouse
 # Entry point for the MCP server
 # Smithery will use this to run the server in a containerized or managed environment
 entrypoint:
-  command: python
-  args: ["server.py"]
+  command: fastmcp
+  args: ["run", "server.py", "--transport", "sse", "--port", "8000", "--host", "0.0.0.0"]
 
 # Environment variables if any
 env:
