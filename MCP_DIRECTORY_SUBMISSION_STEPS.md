@@ -63,6 +63,19 @@
 
 ---
 
+## 4. 🔗 MCPServers.org (新興目錄)
+這是一個新興的第三方目錄，提交非常簡單。
+
+*   **第 1 步**：前往 [mcpservers.org/submit](https://mcpservers.org/submit)。
+*   **第 2 步**：填寫表單：
+    *   **Repository URL**: `https://github.com/peijun1700/bluemouse`
+    *   **Name**: `BlueMouse - The Logic Firewall`
+    *   **Description**: `Stop Vibe Coding. BlueMouse is a data-driven logic gate (MCP Server) that interviews LLMs using Socratic questioning to prevent hallucinations. Features 17-layer validation and 100% local privacy.`
+*   **第 3 步**：點擊 **"Submit"**。
+*   **🎉 完成**：通常會在 24-48 小時內審核上架。
+
+---
+
 ### 💡 小啟示
 完成這三步後，您的「藍圖小老鼠」就正式從本地代碼變成了一項**全球化的雲端基礎設施**。
 
