@@ -30,4 +30,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl \
 EXPOSE 8000
 
 # Default command to run the MCP server with mcp-proxy for inspection
-CMD ["mcp-proxy", "python", "server.py", "--sse"]
+# Using dedicated Stdio entry point to avoid WebSocket/HTTP conflicts
+CMD ["mcp-proxy", "python", "mcp_stdio.py"]
