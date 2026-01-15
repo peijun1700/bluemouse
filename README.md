@@ -4,6 +4,7 @@
 
 
 
+[![Glama | bluemouse](https://glama.ai/mcp/servers/@peijun1700/bluemouse/badge)](https://glama.ai/mcp/servers/@peijun1700/bluemouse)
 [![Status](https://img.shields.io/badge/Status-Global%20Mastery-blue?style=for-the-badge)](docs/reports/STATUS_REPORT_v6.1.md)
 [![License](https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge)](LICENSE)
 
