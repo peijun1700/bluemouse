@@ -1,5 +1,5 @@
 # 🐭 BlueMouse (藍圖小老鼠) v6.6-industrial
-### The "Parasitic Logic Layer" for Cursor & Windsurf.
+### The "Parasitic Logic Layer" for Cursor & Antigravity.
 **Stop Vibe Coding. Start Engineering.**
 **讓您的 AI 寫程式前，先經過「前額葉」思考。**
 bluemouse.ai@gmail.com
