@@ -1,7 +1,7 @@
 # 🐭 BlueMouse (藍圖小老鼠) v6.1
 ### The "Prefrontal Cortex" for Generative AI.
 **讓您的 AI 寫程式前，先經過「大腦」思考。**
-
+bluemouse.ai@gmail.com
 
 
 [![Glama | bluemouse](https://glama.ai/mcp/servers/@peijun1700/bluemouse/badge)](https://glama.ai/mcp/servers/@peijun1700/bluemouse)
