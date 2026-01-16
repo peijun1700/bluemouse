@@ -113,8 +113,10 @@ python run_standalone.py
 | Platform | Status | Guide |
 | :--- | :--- | :--- |
 | **Cursor** | ✅ Native Support | [Read Guide](CURSOR_GUIDE.md) |
-| **Antigravity** | ✅ Native Support | Built-in |
+| **Windsurf** | ✅ Native Support | [Read Guide](WINDSURF_GUIDE.md) |
+| **Antigravity** | ✅ Native Support | Built-in (Agentic Loop) |
 | **VS Code** | ⚠️ Beta | Via MCP Extension |
+| **Others** | ✅ Universal | Any MCP-compliant client |
 
 ---
 
