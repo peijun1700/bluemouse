@@ -68,6 +68,25 @@ graph TD
     CodeGen -->|Compiler Prompt| README["README+Code+Docs"]
 ```
 
+
+---
+
+## 📋 System Requirements (系統要求)
+
+**[EN]** Before you start, make sure your system meets these requirements:
+- **Python**: 3.9 or higher (recommended: 3.9+)
+- **pip**: Python package manager (usually comes with Python)
+- **Operating System**: macOS, Linux, or Windows
+- **Disk Space**: ~500MB (including dependencies)
+- **Network**: Internet connection for initial setup (optional for offline use)
+
+**[TW]** 開始前,請確認您的系統符合以下要求:
+- **Python**: 3.9 或更高版本 (推薦: 3.9+)
+- **pip**: Python 套件管理器 (通常隨 Python 安裝)
+- **作業系統**: macOS, Linux, 或 Windows
+- **硬碟空間**: ~500MB (包含依賴套件)
+- **網路**: 初次安裝需要網路 (離線使用可選)
+
 ---
 
 ## 🚀 Getting Started (如何開始)
@@ -166,6 +185,85 @@ python run_standalone.py
 
 
 [**Read the License (閱讀授權)**](LICENSE)
+
+---
+
+## 🔧 Troubleshooting (故障排除)
+
+### 問題 1: `python3: command not found`
+**解決方案:**
+```bash
+# 試試用 python 而不是 python3
+python --version
+
+# 如果還是不行,需要安裝 Python
+# macOS: brew install python@3.9
+# Ubuntu: sudo apt-get install python3.9
+# Windows: 從 python.org 下載安裝
+```
+
+### 問題 2: `pip install` 失敗
+**解決方案:**
+```bash
+# 方法 1: 升級 pip
+python3 -m pip install --upgrade pip
+
+# 方法 2: 使用國內鏡像 (中國用戶)
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# 方法 3: 逐個安裝依賴
+pip install flask flask-cors
+```
+
+### 問題 3: 端口 8001 被占用
+**錯誤訊息:** `Address already in use`
+
+**解決方案:**
+```bash
+# macOS/Linux: 找出占用端口的程序
+lsof -i :8001
+kill -9 <PID>
+
+# Windows: 找出占用端口的程序
+netstat -ano | findstr :8001
+taskkill /PID <PID> /F
+
+# 或者修改 server.py 使用其他端口 (例如 8002)
+```
+
+### 問題 4: 權限錯誤 (Permission Denied)
+**解決方案:**
+```bash
+# macOS/Linux: 給予執行權限
+chmod +x start_v6.py
+chmod +x start_bluemouse.command
+
+# 不要用 sudo 執行,這會導致其他問題
+```
+
+### 問題 5: 模組找不到 (ModuleNotFoundError)
+**解決方案:**
+```bash
+# 確認在正確的目錄
+cd /path/to/bluemouse_v6_release_final
+
+# 重新安裝依賴
+pip install -r requirements.txt
+
+# 檢查 Python 版本
+python3 --version  # 應該是 3.9+
+```
+
+### 問題 6: 瀏覽器無法訪問 localhost:8001
+**解決方案:**
+1. 確認服務已啟動 (終端應該顯示 "Server running at...")
+2. 試試 `http://127.0.0.1:8001` 而不是 `localhost:8001`
+3. 檢查防火牆設置
+4. 試試其他瀏覽器
+
+### 還是無法解決?
+📧 **聯繫我們:** bluemouse.ai@gmail.com  
+🐛 **提交 Issue:** [GitHub Issues](https://github.com/peijun1700/bluemouse/issues)
 
 ---
 *Built with ❤️ and Logic by [Peijun1700](https://github.com/peijun1700).*
