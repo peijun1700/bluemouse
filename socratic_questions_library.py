@@ -423,6 +423,10 @@ def localize_question(question: Dict[str, Any], language: str = "en-US") -> Dict
     Returns:
         本地化後的問題
     """
+    # 類型檢查:確保 language 是字串
+    if not isinstance(language, str):
+        language = "en-US"
+    
     localized = {
         "category": question["category"],
         "trap": question.get("trap", "")
