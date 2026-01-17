@@ -736,10 +736,11 @@
 
         <div class="workspace-grid">
             <!-- Left: Input Panel -->
-            <div class="input-panel">
-                <h2 data-i18n="input_title">需求輸入</h2>
-                <textarea class="input-neu" id="requirement" placeholder="告訴我們您的想法..."
-                    oninput="handleRequirementInput(this)"></textarea>
+            <div class="input-group">
+                <label for="requirement" data-i18n="input_title">Tell Us Your Vision</label>
+                <textarea class="input-neu" id="requirement" data-i18n-placeholder="placeholder_input"
+                    placeholder="Describe the system you want to build (e.g., I want an e-commerce platform where users can...)"
+                    rows="4" oninput="handleRequirementInput(this)"></textarea>
                 <div
                     style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 13px; color: #6B7280;">
                     <span id="charCount">0 / 5000 字</span>
@@ -992,6 +993,14 @@
                     } else {
                         el.textContent = translations[lang][key];
                     }
+                }
+            });
+
+            // 更新 placeholder (支援 data-i18n-placeholder)
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
                 }
             });
 
