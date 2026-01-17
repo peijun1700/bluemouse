@@ -378,7 +378,9 @@ def layer4_fallback(requirement: str, language: str) -> dict:
             qs = module_data.get('questions', [])
             for q in qs:
                 if q['id'] not in seen_ids:
-                    fused_questions.append(q)
+                    # [LOCALIZATION FIX] Check language
+                    q_localized = localize_question(q, language)
+                    fused_questions.append(q_localized)
                     seen_ids.add(q['id'])
         
         # Add Static Questions
@@ -406,6 +408,46 @@ def layer4_fallback(requirement: str, language: str) -> dict:
     # 3. 如果完全沒命中(或命中但無題目)，回退到 Default
     print(f"  [4/4] 📋 未命中特定領域(或空集合)，使用預設題庫")
     return TEMPLATE_LIBRARY['default'](language)
+
+
+def localize_question(q: dict, lang: str) -> dict:
+    """
+    Localize a data-driven question structure.
+    Resolves 'text', 'options[].label', 'options[].description' if they are dicts.
+    """
+    import copy
+    q_copy = copy.deepcopy(q)
+    
+    # Helper to resolve string/dict
+    def resolve(val):
+        if isinstance(val, dict) and ('zh-TW' in val or 'en' in val):
+            # 1. Exact match
+            if lang in val: return val[lang]
+            
+            # 2. Prefix match (en-US -> en)
+            if lang.startswith('en') and 'en' in val: return val['en']
+            
+            # 3. Fallback to en (Global default)
+            if 'en' in val: return val['en']
+            
+            # 4. Last resort (zh-TW)
+            return val.get('zh-TW', '')
+        return val
+
+    # 1. Localize Question Text
+    if 'text' in q_copy:
+        q_copy['text'] = resolve(q_copy['text'])
+        
+    # 2. Localize Options
+    if 'options' in q_copy and isinstance(q_copy['options'], list):
+        for opt in q_copy['options']:
+            if 'label' in opt:
+                opt['label'] = resolve(opt['label'])
+            if 'description' in opt:
+                opt['description'] = resolve(opt['description'])
+                
+    return q_copy
+
 
 def search_index_multi(req: str) -> list:
     """

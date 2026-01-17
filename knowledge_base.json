@@ -2,7 +2,7 @@
   "metadata": {
     "source": "data_trap.jsonl",
     "total_analyzed": 180412,
-    "version": "v1.0-data-driven"
+    "version": "v1.1-multilingual"
   },
   "modules": {
     "type_safety": {
@@ -18,17 +18,32 @@
         {
           "id": "dd_strict_typing",
           "type": "single_choice",
-          "text": "根據大數據分析，這裡最常發生「變數傳錯」的意外（例如把文字當數字傳）。您打算怎麼預防？",
+          "text": {
+            "zh-TW": "根據大數據分析，這裡最常發生「變數傳錯」的意外（例如把文字當數字傳）。您打算怎麼預防？",
+            "en": "According to data analysis, 'variable type errors' (e.g., passing text as numbers) are frequent here. How will you prevent this?"
+          },
           "options": [
             {
-              "label": "A. 嚴格檢查 (Pydantic)",
-              "description": "雖然會慢一點點，但能保證進來的資料絕對沒問題。（推薦）",
+              "label": {
+                "zh-TW": "A. 嚴格檢查 (Pydantic)",
+                "en": "A. Strict Check (Pydantic)"
+              },
+              "description": {
+                "zh-TW": "雖然會慢一點點，但能保證進來的資料絕對沒問題。（推薦）",
+                "en": "Slightly slower, but guarantees data integrity. (Recommended)"
+              },
               "risk_score": "性能輕微折損",
               "value": "pydantic"
             },
             {
-              "label": "B. 佛系檢查 (MyPy)",
-              "description": "只在寫程式時幫你檢查，跑起來的時候不管。可能會出錯。",
+              "label": {
+                "zh-TW": "B. 佛系檢查 (MyPy)",
+                "en": "B. Casual Check (MyPy)"
+              },
+              "description": {
+                "zh-TW": "只在寫程式時幫你檢查，跑起來的時候不管。可能會出錯。",
+                "en": "Only checks during coding, ignored at runtime. May cause errors."
+              },
               "risk_score": "運行時錯誤風險",
               "value": "mypy"
             }
@@ -51,17 +66,32 @@
         {
           "id": "dd_dependency_boundary",
           "type": "single_choice",
-          "text": "很多人寫到這裡，會不小心引入一堆不該用的外部程式庫（把系統弄髒）。您的管制策略是？",
+          "text": {
+            "zh-TW": "很多人寫到這裡，會不小心引入一堆不該用的外部程式庫（把系統弄髒）。您的管制策略是？",
+            "en": "Many developers accidentally import unnecessary libraries here (polluting the system). What is your control strategy?"
+          },
           "options": [
             {
-              "label": "A. 只准用白名單 (Whitelist)",
-              "description": "規定只能用哪幾個常用的。雖然麻煩，但最乾淨。",
+              "label": {
+                "zh-TW": "A. 只准用白名單 (Whitelist)",
+                "en": "A. Whitelist Only"
+              },
+              "description": {
+                "zh-TW": "規定只能用哪幾個常用的。雖然麻煩，但最乾淨。",
+                "en": "Restrict to a few approved ones. Troublesome but cleanest."
+              },
               "risk_score": "開發效率降低",
               "value": "whitelist"
             },
             {
-              "label": "B. 寫完再檢查 (Layer Check)",
-              "description": "先讓大家隨便寫，上線前再用工具掃描有沒有違規。",
+              "label": {
+                "zh-TW": "B. 寫完再檢查 (Layer Check)",
+                "en": "B. Check After Coding (Layer Check)"
+              },
+              "description": {
+                "zh-TW": "先讓大家隨便寫，上線前再用工具掃描有沒有違規。",
+                "en": "Let developers write freely, then scan for violations before deployment."
+              },
               "risk_score": "架構腐化風險",
               "value": "layer_check"
             }
@@ -90,17 +120,32 @@
         {
           "id": "dd_numerical_safety",
           "type": "single_choice",
-          "text": "如果是牽涉到「錢」的計算，電腦的小數點有時候會算錯（浮點數誤差）。您打算怎麼辦？",
+          "text": {
+            "zh-TW": "如果是牽涉到「錢」的計算，電腦的小數點有時候會算錯（浮點數誤差）。您打算怎麼辦？",
+            "en": "For money-related calculations, floating-point errors can occur. What is your strategy?"
+          },
           "options": [
             {
-              "label": "A. 用專業金融格式 (Decimal)",
-              "description": "保證一塊錢都不會少。計算速度慢一點，但這是銀行標準。",
+              "label": {
+                "zh-TW": "A. 用專業金融格式 (Decimal)",
+                "en": "A. Use Professional Format (Decimal)"
+              },
+              "description": {
+                "zh-TW": "保證一塊錢都不會少。計算速度慢一點，但這是銀行標準。",
+                "en": "Guarantees precision. Slightly slower, but it's the banking standard."
+              },
               "risk_score": "運算速度慢",
               "value": "decimal"
             },
             {
-              "label": "B. 多寫幾個檢查 (Defensive)",
-              "description": "到處寫「如果不等於零」這種檢查。程式碼會變很醜。",
+              "label": {
+                "zh-TW": "B. 多寫幾個檢查 (Defensive)",
+                "en": "B. Defensive Checks"
+              },
+              "description": {
+                "zh-TW": "到處寫「如果不等於零」這種檢查。程式碼會變很醜。",
+                "en": "Add 'if not zero' checks everywhere. Makes code messy."
+              },
               "risk_score": "代碼維護困難",
               "value": "defensive"
             }
@@ -131,17 +176,32 @@
         {
           "id": "dd_fail_safe",
           "type": "single_choice",
-          "text": "這是「人命關天」的系統(Safety Critical)。如果控制晶片突然燒了(Hardware Failure)，您的系統會？",
+          "text": {
+            "zh-TW": "這是「人命關天」的系統(Safety Critical)。如果控制晶片突然燒了(Hardware Failure)，您的系統會？",
+            "en": "This is a Safety Critical system. If the control chip fails hard (Hardware Failure), what should the system do?"
+          },
           "options": [
             {
-              "label": "A. 故障導向安全 (Fail-Safe)",
-              "description": "立即切斷電源/停止運作，確保不會爆炸或害死人。(核電廠/醫療標準)",
+              "label": {
+                "zh-TW": "A. 故障導向安全 (Fail-Safe)",
+                "en": "A. Fail-Safe"
+              },
+              "description": {
+                "zh-TW": "立即切斷電源/停止運作，確保不會爆炸或害死人。(核電廠/醫療標準)",
+                "en": "Immediately cut power/stop operation. Ensure no explosion or casualty. (Nuclear/Medical standard)"
+              },
               "risk_score": "系統停機風險",
               "value": "fail_safe"
             },
             {
-              "label": "B. 故障導向運作 (Fail-Operational)",
-              "description": "啟動備用系統繼續運作。飛機引擎通常用這個，因為不能空中停機。",
+              "label": {
+                "zh-TW": "B. 故障導向運作 (Fail-Operational)",
+                "en": "B. Fail-Operational"
+              },
+              "description": {
+                "zh-TW": "啟動備用系統繼續運作。飛機引擎通常用這個，因為不能空中停機。",
+                "en": "Activate backup system to continue operation. Aircraft engines use this (cannot stop mid-flight)."
+              },
               "risk_score": "設計極其複雜",
               "value": "fail_operational"
             }
