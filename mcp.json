@@ -1,6 +1,6 @@
 {
     "name": "blueprint-little-mouse",
-    "version": "6.0.0",
+    "version": "6.6.1",
     "description": "AI-Driven Architecture Generation System with 17-Layer Validation & Socratic Logic Gating.",
     "command": "python3",
     "args": [
