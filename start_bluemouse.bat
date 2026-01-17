@@ -32,8 +32,7 @@ echo 🚀 Starting API Server...
 echo 👉 Please watch the browser popup.
 echo.
 
-start "" "bluemouse_saas.html"
-start "" "bluemouse_saas.html"
+start "" "http://localhost:8001"
 venv\Scripts\python run_standalone.py
 
 pause

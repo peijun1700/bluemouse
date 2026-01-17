@@ -16,7 +16,7 @@
             // 🆕 v5.3 商業化功能
             ENTERPRISE_MODE: false,      // 企業版模式（不記錄任何數據）
             DATA_COLLECTION: true,       // 數據收集開關
-            VERSION: '5.3-minimal'       // 版本標識
+            VERSION: 'v6.6-hybrid'       // 版本標識
         };
     </script>
     <style>
@@ -637,26 +637,27 @@
 
 <body>
     <!-- Language Switcher -->
-    <div class="lang-switcher">
-        <button class="lang-btn" onclick="openSettings()" title="Settings" style="margin-right: 8px;">⚙️</button>
-        <button class="lang-btn active" onclick="setLanguage('zh-TW')" id="btn-zh">中文</button>
-        <button class="lang-btn" onclick="setLanguage('en-US')" id="btn-en">EN</button>
+    <button class="lang-btn" onclick="openSettings()" title="Settings" style="margin-right: 8px;">⚙️</button>
+    <button class="lang-btn" onclick="setLanguage('zh-TW')" id="btn-zh">中文</button>
+    <button class="lang-btn active" onclick="setLanguage('en-US')" id="btn-en">English</button>
     </div>
 
     <!-- 需求輸入區 -->
     <div id="draftNotification"
         style="display: none; padding: 12px; background: #FEF3C7; border-radius: 8px; margin-bottom: 16px; font-size: 14px;">
-        📝 檢測到未完成的草稿，<a href="#" onclick="restoreDraft(); return false;"
-            style="color: #0F4C81; font-weight: 600;">點擊恢復</a> 或 <a href="#" onclick="clearDraft(); return false;"
-            style="color: #EF4444;">清除</a>
+        <span data-i18n="draft_detected">📝 檢測到未完成的草稿，</span><a href="#" onclick="restoreDraft(); return false;"
+            style="color: #0F4C81; font-weight: 600;" data-i18n="draft_restore">點擊恢復</a> <span
+            data-i18n="draft_or">或</span> <a href="#" onclick="clearDraft(); return false;" style="color: #EF4444;"
+            data-i18n="draft_clear">清除</a>
     </div>
     <!-- View A: Landing Page -->
     <div id="viewLanding" class="view landing">
         <!-- Hero Section -->
         <section class="hero">
-            <h1 data-i18n="hero_title">拒絕 Vibe Coding，奪回邏輯主權</h1>
-            <p data-i18n="hero_subtitle">全球唯一具備17層邏輯驗證的AI架構師。不亮綠燈，不准生成。</p>
-            <button class="hero-cta" onclick="enterWorkspace()" data-i18n="cta_start">開始免費試用</button>
+            <h1 data-i18n="hero_title">Stop Vibe Coding. Start Engineering.</h1>
+            <p data-i18n="hero_subtitle">The only AI Architect with 17-layer logic validation. No Green Light, No Code.
+            </p>
+            <button class="hero-cta" onclick="enterWorkspace()" data-i18n="cta_start">Start Free Trial</button>
         </section>
 
         <!-- Pain Section -->
@@ -915,7 +916,11 @@
                 "validating_concurrency": "正在檢查並發安全性...",
                 "validating_structure": "正在確認資料庫結構...",
                 "validating_security": "正在檢查安全性設定...",
-                "success_message": "邏輯看起來很棒！隨時可以開始生成。"
+                "success_message": "邏輯看起來很棒！隨時可以開始生成。",
+                "draft_detected": "📝 檢測到未完成的草稿，",
+                "draft_restore": "點擊恢復",
+                "draft_or": "或",
+                "draft_clear": "清除"
             },
             "en-US": {
                 "hero_title": "Stop Vibe Coding. Start Engineering.",
@@ -963,7 +968,11 @@
                 "validating_concurrency": "Checking concurrency safety...",
                 "validating_structure": "Verifying database structure...",
                 "validating_security": "Checking security settings...",
-                "success_message": "Logic looks great! Ready to proceed."
+                "success_message": "Logic looks great! Ready to proceed.",
+                "draft_detected": "📝 Draft detected, ",
+                "draft_restore": "Restore",
+                "draft_or": "or",
+                "draft_clear": "Clear"
             }
         };
 
@@ -998,7 +1007,7 @@
 
             // 然後初始化語言
             const saved = localStorage.getItem('preferredLanguage');
-            const detected = navigator.language.startsWith('zh') ? 'zh-TW' : 'en-US';
+            const detected = 'en-US'; // 預設使用英文
             setLanguage(saved || detected);
         });
 

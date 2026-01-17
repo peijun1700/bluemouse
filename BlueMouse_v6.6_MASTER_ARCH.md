@@ -1,7 +1,8 @@
-# 🐭 BlueMouse v6.1: Master Architecture & Functionality Document
+# 🐭 BlueMouse v6.6: Master Architecture & Functionality Document
 
-> **版本 (Version)**: v6.1 (Hybrid Edition)
-> **核心哲學 (Core Philosophy)**: Zero-Cost Parasitism & Stop Vibe Coding.
+> **版本 (Version)**: v6.6 (Hybrid Edition)
+> **日期 (Date)**: 2026-01-17
+> **Slogan**: Stop Vibe Coding. Start Engineering.
 > **狀態 (Status)**: Production Ready (Local Hybrid Mode)
 
 ---

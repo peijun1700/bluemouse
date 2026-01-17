@@ -22,7 +22,7 @@ import json
 import uvicorn
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse, Response, FileResponse
 from pydantic import BaseModel
 from typing import Dict, List, Any, Optional
 
@@ -82,9 +82,14 @@ async def health_check():
     """Health check endpoint for UI."""
     return {
         "status": "healthy", 
-        "version": "v6.1-hybrid",
+        "version": "v6.6-hybrid",
         "mcp_mounted": mcp is not None
     }
+
+@app.get("/")
+async def serve_ui():
+    """Serve the SaaS UI."""
+    return FileResponse("bluemouse_saas.html")
 
 @app.post("/api/generate_socratic_questions")
 async def api_generate_socratic_questions(req: SocraticRequest):

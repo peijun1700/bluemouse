@@ -60,43 +60,88 @@ QUESTION_LIBRARY: Dict[str, List[Dict[str, Any]]] = {
     # 認證/安全場景 (Auth/Security)
     "authentication": [
         {
-            "text": "用戶連續登入失敗 5 次,你要如何處理?",
+            "text": {
+                "zh-TW": "用戶連續登入失敗 5 次,你要如何處理?",
+                "en-US": "User failed to login 5 times in a row, how should you handle it?"
+            },
             "category": "security",
-            "options": ["A. 鎖定帳號 30 分鐘", "B. 要求圖形驗證碼", "C. 不處理"],
-            "risk_analysis": {"0": "✅ 標準防禦", "1": "✅ 平衡體驗", "2": "⚠️ 暴力破解風險"},
-            "trap": "測試暴力破解防禦意識"
+            "options": {
+                "zh-TW": ["A. 鎖定帳號 30 分鐘", "B. 要求圖形驗證碼", "C. 不處理"],
+                "en-US": ["A. Lock account for 30 minutes", "B. Require CAPTCHA", "C. Do nothing"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "✅ 標準防禦", "1": "✅ 平衡體驗", "2": "⚠️ 暴力破解風險"},
+                "en-US": {"0": "✅ Standard defense", "1": "✅ Balanced UX", "2": "⚠️ Brute force risk"}
+            },
+            "trap": "Testing brute force defense awareness"
         },
         {
-            "text": "JWT Token 被盜用了，服務端能強制讓它失效嗎？",
+            "text": {
+                "zh-TW": "JWT Token 被盜用了，服務端能強制讓它失效嗎？",
+                "en-US": "If JWT Token is stolen, can the server force it to expire?"
+            },
             "category": "security",
-            "options": ["A. 不能，JWT 是無狀態的", "B. 可以，使用 Redis 黑名單機制", "C. 可以，刪除用戶"],
-            "risk_analysis": {"0": "⚠️ 安全漏洞", "1": "✅ 標準解決方案", "2": "⚠️ 過度反應"},
-            "trap": "測試 JWT 機制理解"
+            "options": {
+                "zh-TW": ["A. 不能，JWT 是無狀態的", "B. 可以，使用 Redis 黑名單機制", "C. 可以，刪除用戶"],
+                "en-US": ["A. No, JWT is stateless", "B. Yes, use Redis blacklist", "C. Yes, delete user"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "⚠️ 安全漏洞", "1": "✅ 標準解決方案", "2": "⚠️ 過度反應"},
+                "en-US": {"0": "⚠️ Security vulnerability", "1": "✅ Standard solution", "2": "⚠️ Overreaction"}
+            },
+            "trap": "Testing JWT mechanism understanding"
         },
         {
-            "text": "如果資料庫被 SQL Injection 注入，所有用戶密碼洩漏，後果是什麼？",
+            "text": {
+                "zh-TW": "如果資料庫被 SQL Injection 注入，所有用戶密碼洩漏，後果是什麼？",
+                "en-US": "If database is SQL injected and all passwords leaked, what's the consequence?"
+            },
             "category": "security",
-            "options": ["A. 密碼是明文，全部完蛋", "B. 密碼有加鹽 Hash，暫時安全但需重置", "C. 只有管理員受影響"],
-            "risk_analysis": {"0": "💀 災難性後果 (未加密)", "1": "✅ 縱深防禦生效", "2": "⚠️ 錯誤認知"},
-            "trap": "測試密碼存儲安全意識"
+            "options": {
+                "zh-TW": ["A. 密碼是明文，全部完蛋", "B. 密碼有加鹽 Hash，暫時安全但需重置", "C. 只有管理員受影響"],
+                "en-US": ["A. Passwords are plaintext, total disaster", "B. Passwords are salted & hashed, temporarily safe but need reset", "C. Only admins affected"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "💀 災難性後果 (未加密)", "1": "✅ 縱深防禦生效", "2": "⚠️ 錯誤認知"},
+                "en-US": {"0": "💀 Catastrophic (no encryption)", "1": "✅ Defense in depth works", "2": "⚠️ Wrong assumption"}
+            },
+            "trap": "Testing password storage security awareness"
         }
     ],
 
     # 數據一致性 (Data Consistency)
     "data_consistency": [
         {
-            "text": "主資料庫寫入成功但快取更新失敗,如何保證一致性?",
+            "text": {
+                "zh-TW": "主資料庫寫入成功但快取更新失敗,如何保證一致性?",
+                "en-US": "Database write succeeded but cache update failed, how to ensure consistency?"
+            },
             "category": "consistency",
-            "options": ["A. 回滾資料庫", "B. 設定快取過期時間 (TTL)", "C. 無限重試"],
-            "risk_analysis": {"0": "⚠️ 影響性能", "1": "✅ 最終一致性", "2": "⚠️ 可能死鎖"},
-            "trap": "測試 CAP 定理與最終一致性"
+            "options": {
+                "zh-TW": ["A. 回滾資料庫", "B. 設定快取過期時間 (TTL)", "C. 無限重試"],
+                "en-US": ["A. Rollback database", "B. Set cache TTL", "C. Infinite retry"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "⚠️ 影響性能", "1": "✅ 最終一致性", "2": "⚠️ 可能死鎖"},
+                "en-US": {"0": "⚠️ Performance impact", "1": "✅ Eventual consistency", "2": "⚠️ Possible deadlock"}
+            },
+            "trap": "Testing CAP theorem and eventual consistency"
         },
         {
-            "text": "微服務 A 調用 微服務 B 失敗，如何保證數據不丟失？",
+            "text": {
+                "zh-TW": "微服務 A 調用 微服務 B 失敗，如何保證數據不丟失？",
+                "en-US": "Microservice A calls microservice B failed, how to prevent data loss?"
+            },
             "category": "reliability",
-            "options": ["A. 記錄 Log", "B. 使用消息隊列 (Kafka/RabbitMQ) 重試", "C. 放棄操作"],
-            "risk_analysis": {"0": "⚠️ 難以自動恢復", "1": "✅ 可靠性設計", "2": "⚠️ 數據丟失"},
-            "trap": "測試分布式系統可靠性"
+            "options": {
+                "zh-TW": ["A. 記錄 Log", "B. 使用消息隊列 (Kafka/RabbitMQ) 重試", "C. 放棄操作"],
+                "en-US": ["A. Log it", "B. Use message queue (Kafka/RabbitMQ) for retry", "C. Abandon operation"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "⚠️ 難以自動恢復", "1": "✅ 可靠性設計", "2": "⚠️ 數據丟失"},
+                "en-US": {"0": "⚠️ Hard to auto-recover", "1": "✅ Reliability design", "2": "⚠️ Data loss"}
+            },
+            "trap": "Testing distributed system reliability"
         }
     ],
 
@@ -168,11 +213,52 @@ QUESTION_LIBRARY: Dict[str, List[Dict[str, Any]]] = {
     # 待辦/任務場景 (Todo)
     "todo": [
         {
-            "text": "刪除父任務時，子任務應該如何處理？",
+            "text": {
+                "zh-TW": "刪除父任務時,子任務應該如何處理?",
+                "en-US": "When deleting a parent task, how should child tasks be handled?"
+            },
             "category": "data_integrity",
-            "options": ["A. 級聯刪除 (Cascade Delete)", "B. 子任務變為獨立任務 (Orphan)", "C. 禁止刪除"],
-            "risk_analysis": {"0": "✅ 數據清潔", "1": "⚠️ 數據碎片", "2": "⚠️ 僵化"},
-            "trap": "測試數據關聯完整性"
+            "options": {
+                "zh-TW": ["A. 級聯刪除 (Cascade Delete)", "B. 子任務變為獨立任務 (Orphan)", "C. 禁止刪除"],
+                "en-US": ["A. Cascade Delete", "B. Child tasks become independent (Orphan)", "C. Prevent deletion"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "✅ 數據清潔", "1": "⚠️ 數據碎片", "2": "⚠️ 僵化"},
+                "en-US": {"0": "✅ Clean data", "1": "⚠️ Data fragmentation", "2": "⚠️ Rigidity"}
+            },
+            "trap": "Testing data relationship integrity"
+        },
+        {
+            "text": {
+                "zh-TW": "如果兩個用戶同時編輯同一個任務,如何處理衝突?",
+                "en-US": "If two users edit the same task simultaneously, how to handle conflicts?"
+            },
+            "category": "concurrency",
+            "options": {
+                "zh-TW": ["A. 最後寫入勝出 (Last Write Wins)", "B. 樂觀鎖 + 版本號檢查", "C. 鎖定編輯 (只允許一人編輯)"],
+                "en-US": ["A. Last Write Wins", "B. Optimistic Lock + Version Check", "C. Lock editing (only one user can edit)"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "⚠️ 數據丟失", "1": "✅ 安全且高效", "2": "⚠️ 用戶體驗差"},
+                "en-US": {"0": "⚠️ Data loss", "1": "✅ Safe and efficient", "2": "⚠️ Poor UX"}
+            },
+            "trap": "Testing concurrent editing awareness"
+        },
+        {
+            "text": {
+                "zh-TW": "任務列表有 10,000+ 項任務時,如何優化載入速度?",
+                "en-US": "With 10,000+ tasks in the list, how to optimize loading speed?"
+            },
+            "category": "performance",
+            "options": {
+                "zh-TW": ["A. 一次載入全部 (簡單但慢)", "B. 分頁載入 (Pagination)", "C. 虛擬滾動 (Virtual Scrolling)"],
+                "en-US": ["A. Load all at once (simple but slow)", "B. Pagination", "C. Virtual Scrolling"]
+            },
+            "risk_analysis": {
+                "zh-TW": {"0": "⚠️ 瀏覽器崩潰", "1": "✅ 標準做法", "2": "✅ 最佳性能但複雜"},
+                "en-US": {"0": "⚠️ Browser crash", "1": "✅ Standard practice", "2": "✅ Best performance but complex"}
+            },
+            "trap": "Testing performance optimization knowledge"
         }
     ],
 
@@ -200,28 +286,72 @@ QUESTION_LIBRARY: Dict[str, List[Dict[str, Any]]] = {
 # 問題生成輔助函數
 # ========================================
 
-def get_questions_by_category(category: str) -> List[Dict[str, Any]]:
+def localize_question(question: Dict[str, Any], language: str = "en-US") -> Dict[str, Any]:
     """
-    根據類別獲取問題
+    將問題本地化為指定語言
+    
+    Args:
+        question: 問題字典
+        language: 語言代碼 (zh-TW, en-US)
+        
+    Returns:
+        本地化後的問題
+    """
+    localized = {
+        "category": question["category"],
+        "trap": question.get("trap", "")
+    }
+    
+    # 處理 text 字段
+    if isinstance(question["text"], dict):
+        localized["text"] = question["text"].get(language, question["text"].get("en-US", ""))
+    else:
+        localized["text"] = question["text"]
+    
+    # 處理 options 字段
+    if isinstance(question["options"], dict):
+        localized["options"] = question["options"].get(language, question["options"].get("en-US", []))
+    else:
+        localized["options"] = question["options"]
+    
+    # 處理 risk_analysis 字段
+    if isinstance(question["risk_analysis"], dict):
+        # 檢查是否為雙語結構
+        if "zh-TW" in question["risk_analysis"] or "en-US" in question["risk_analysis"]:
+            localized["risk_analysis"] = question["risk_analysis"].get(language, question["risk_analysis"].get("en-US", {}))
+        else:
+            localized["risk_analysis"] = question["risk_analysis"]
+    else:
+        localized["risk_analysis"] = question["risk_analysis"]
+    
+    return localized
+
+
+def get_questions_by_category(category: str, language: str = "en-US") -> List[Dict[str, Any]]:
+    """
+    根據類別和語言獲取問題
     
     Args:
         category: 問題類別 (payment, inventory, authentication, etc.)
+        language: 語言代碼 (zh-TW, en-US)
         
     Returns:
-        問題列表
+        本地化後的問題列表
     """
-    return QUESTION_LIBRARY.get(category, [])
+    questions = QUESTION_LIBRARY.get(category, [])
+    return [localize_question(q, language) for q in questions]
 
 
-def get_random_questions(count: int = 5) -> List[Dict[str, Any]]:
+def get_random_questions(count: int = 5, language: str = "en-US") -> List[Dict[str, Any]]:
     """
     隨機獲取指定數量的問題
     
     Args:
         count: 問題數量
+        language: 語言代碼 (zh-TW, en-US)
         
     Returns:
-        問題列表
+        本地化後的問題列表
     """
     import random
     
@@ -229,19 +359,21 @@ def get_random_questions(count: int = 5) -> List[Dict[str, Any]]:
     for questions in QUESTION_LIBRARY.values():
         all_questions.extend(questions)
     
-    return random.sample(all_questions, min(count, len(all_questions)))
+    selected = random.sample(all_questions, min(count, len(all_questions)))
+    return [localize_question(q, language) for q in selected]
 
 
-def get_questions_for_module(module_name: str, module_description: str) -> List[Dict[str, Any]]:
+def get_questions_for_module(module_name: str, module_description: str, language: str = "en-US") -> List[Dict[str, Any]]:
     """
     根據模組名稱和描述智能選擇問題
     
     Args:
         module_name: 模組名稱
         module_description: 模組描述
+        language: 語言代碼 (zh-TW, en-US)
         
     Returns:
-        相關問題列表
+        本地化後的相關問題列表
     """
     text = (module_name + " " + module_description).lower()
     
@@ -249,23 +381,23 @@ def get_questions_for_module(module_name: str, module_description: str) -> List[
     
     # 根據關鍵詞匹配問題類別
     if any(kw in text for kw in ['付款', '支付', 'payment', '交易']):
-        selected_questions.extend(get_questions_by_category('payment'))
+        selected_questions.extend(get_questions_by_category('payment', language))
     
     if any(kw in text for kw in ['庫存', 'inventory', '商品', '購物']):
-        selected_questions.extend(get_questions_by_category('inventory'))
+        selected_questions.extend(get_questions_by_category('inventory', language))
     
     if any(kw in text for kw in ['登入', '認證', 'auth', '用戶', 'user']):
-        selected_questions.extend(get_questions_by_category('authentication'))
+        selected_questions.extend(get_questions_by_category('authentication', language))
     
     if any(kw in text for kw in ['數據', 'data', '快取', 'cache']):
-        selected_questions.extend(get_questions_by_category('data_consistency'))
+        selected_questions.extend(get_questions_by_category('data_consistency', language))
     
     if any(kw in text for kw in ['api', '接口', '第三方', 'integration']):
-        selected_questions.extend(get_questions_by_category('api_integration'))
+        selected_questions.extend(get_questions_by_category('api_integration', language))
     
     # 如果沒有匹配,返回隨機問題
     if not selected_questions:
-        selected_questions = get_random_questions(5)
+        selected_questions = get_random_questions(5, language)
     
     return selected_questions[:5]  # 最多返回 5 個問題
 

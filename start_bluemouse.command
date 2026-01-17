@@ -34,7 +34,7 @@ fi
 if [ ! -d "venv" ]; then
     echo -e "${RED}❌ 未檢測到虛擬環境，正在自動修復...${NC}"
     python3 -m venv venv
-    ./venv/bin/pip install fastmcp uvicorn fastapi pydantic websockets anthropic
+    ./venv/bin/pip install uvicorn fastapi pydantic websockets anthropic requests
     echo -e "${GREEN}✅ 環境修復完成${NC}"
 fi
 
@@ -43,7 +43,7 @@ echo -e "${CYAN}🔧 正在配置 VS Code工作區設定...${NC}"
 ./venv/bin/python setup_mcp.py
 
 # 6. 自動打開瀏覽器 (延遲 2 秒執行)
-(sleep 2 && open "bluemouse_saas.html") &
+(sleep 2 && open "http://localhost:8001") &
 
 # 7. 啟動大腦 (Server)
 echo -e "${GREEN}🚀 啟動 API Server...${NC}"

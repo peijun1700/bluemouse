@@ -6,7 +6,7 @@ bluemouse.ai@gmail.com
 
 
 [![Glama | bluemouse](https://glama.ai/mcp/servers/@peijun1700/bluemouse/badge)](https://glama.ai/mcp/servers/@peijun1700/bluemouse)
-[![Status](https://img.shields.io/badge/Status-Global%20Mastery-blue?style=for-the-badge)](docs/reports/STATUS_REPORT_v6.1.md)
+[![Status](https://img.shields.io/badge/Status-Global%20Mastery-blue?style=for-the-badge)](docs/reports/STATUS_REPORT_v6.6.md)
 [![License](https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge)](LICENSE)
 
 [![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-green?style=for-the-badge)](LICENSE)
@@ -77,7 +77,44 @@ graph TD
 ### 🅰️ For Vibe Coders (我是新手/Vibe Coder)
 > *"我不想看代碼，我只想它能動，而且不要把我的電腦炸掉。"*
 
+#### 方法 1: 一鍵啟動 (推薦)
 👉 **直接點擊文件夾中的 `start_bluemouse.command` (Mac) 或 `start_bluemouse.bat` (Windows) 即可啟動。**
+
+#### 方法 2: 手動啟動 (如果一鍵腳本不工作)
+
+**Mac/Linux:**
+```bash
+# 1. 打開終端機 (Terminal)
+# 2. 進入 BlueMouse 資料夾
+cd /path/to/bluemouse_v6_release_final
+
+# 3. 啟動服務
+python3 start_v6.py
+```
+
+**Windows:**
+```bash
+# 1. 打開命令提示字元 (CMD) 或 PowerShell
+# 2. 進入 BlueMouse 資料夾
+cd C:\path\to\bluemouse_v6_release_final
+
+# 3. 啟動服務
+python start_v6.py
+```
+
+**啟動成功後,你會看到:**
+```
+🐭 BlueMouse v6.6 啟動中...
+✅ Server running at http://localhost:8001
+```
+
+然後在瀏覽器打開 `http://localhost:8001` 即可使用!
+
+> **💡 常見問題:**
+> - **找不到 python3?** 試試 `python` 而不是 `python3`
+> - **權限錯誤?** Mac 用戶可能需要先執行 `chmod +x start_v6.py`
+> - **端口被占用?** 關閉其他使用 8001 端口的程式
+
 
 ### 🅱️ For Professional Engineers (工程師模式)
 > *"我想整合 MCP 插件，並在我的專案中注入安全閥。"*

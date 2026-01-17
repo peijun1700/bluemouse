@@ -62,6 +62,22 @@
 
 ---
 
+## ❓ 故障排除 (Troubleshooting)
+
+### Q: 打開 `start_bluemouse.command` 時顯示「無法驗證開發者」？
+這是 macOS 的安全機制。請按照以下步驟操作：
+1.  **右鍵點擊 (Control + Click)** `start_bluemouse.command` 文件。
+2.  選擇 **「打開 (Open)」**。
+3.  在彈出的對話框中再次點擊 **「打開」**。
+
+或者，您可以在終端機中運行以下命令來移除隔離標記：
+```bash
+xattr -d com.apple.quarantine start_bluemouse.command
+chmod +x start_bluemouse.command
+```
+
+---
+
 ## 💡 最佳實踐 (Best Practices)
 
 1.  **循序漸進**：先說「規劃」，再說「分析」，最後說「實作」。不要一開始就叫它寫完整的 Code，這樣會跳過小老鼠最強大的架構驗證能力。
