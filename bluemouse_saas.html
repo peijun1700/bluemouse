@@ -1433,8 +1433,13 @@
         }
 
         function skipInterview() {
+            // 關閉彈窗,不生成 ZIP
             document.getElementById('socratesModal').classList.remove('active');
-            proceedToGeneration();
+
+            // 提示用戶必須回答問題
+            showToast(currentLang === 'zh-TW' ?
+                '💡 請回答問題以獲得更好的代碼品質' :
+                '💡 Please answer questions for better code quality');
         }
 
         function submitAnswers() {
