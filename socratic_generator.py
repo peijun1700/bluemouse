@@ -190,7 +190,7 @@ async def layer3_api_key(requirement: str, language: str, api_key: str = None) -
     """
     try:
         import aiohttp
-        used_key = api_key or os.getenv('ANTHROPIC_API_KEY') or os.getenv('OPENAI_API_KEY')
+        used_key = api_key or os.getenv('GEMINI_API_KEY') or os.getenv('ANTHROPIC_API_KEY') or os.getenv('OPENAI_API_KEY')
         
         if not used_key:
             raise ValueError("未配置 API Key")
@@ -199,7 +199,12 @@ async def layer3_api_key(requirement: str, language: str, api_key: str = None) -
         
         # 這裡實作一個通用的 OpenAI 兼容格式調用
         # 實際生產中會根據使用的 Key 類型切換 Endpoint
-        endpoint = "https://api.openai.com/v1/chat/completions" if "sk-" in used_key else "https://api.anthropic.com/v1/messages"
+        if "AIza" in used_key:  # Gemini API key pattern
+            endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+        elif "sk-" in used_key:  # OpenAI
+            endpoint = "https://api.openai.com/v1/chat/completions"
+        else:  # Anthropic
+            endpoint = "https://api.anthropic.com/v1/messages"
         
         async with aiohttp.ClientSession() as session:
             # 這裡我們模擬調用，但結構是完整的異步流程
