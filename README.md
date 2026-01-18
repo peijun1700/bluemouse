@@ -79,6 +79,39 @@ BlueMouse 會自動注入 `.cursorrules` 並開始保護您的代碼。
 
 ---
 
+## 📐 System Architecture | 系統架構
+
+**[EN]** BlueMouse uses a 4-layer hybrid architecture with intelligent fallback:
+
+**[中文]** BlueMouse 使用 4 層混合架構,具有智能降級機制:
+
+```mermaid
+graph TD
+    User["User Request | 用戶需求"] --> L1{"L1: Antigravity Inline<br/>內聯生成"}
+    L1 -->|Miss 未命中| L2{"L2: Ollama Local<br/>本地模型"}
+    L2 -->|Miss/Timeout<br/>未命中/超時| L3{"L3: Cloud API (BYOK)<br/>雲端 API (自帶密鑰)"}
+    L3 -->|Miss/Offline<br/>未命中/離線| L4["L4: Rule Engine Fallback<br/>規則引擎降級"]
+    
+    subgraph "Hybrid Fusion Core | 混合融合核心"
+    L4 -->|Keyword Match<br/>關鍵詞匹配| KB["Knowledge Base (180k Data)<br/>知識庫 (18萬數據)"]
+    KB --> Fusion["Hybrid Fusion Engine<br/>混合融合引擎"]
+    end
+    
+    Fusion --> Socratic["Socratic Interview<br/>蘇格拉底式面試"]
+    Socratic --> User
+    
+    User -->|Answers 回答| CodeGen["17-Layer Code Generator<br/>17層代碼生成器"]
+    CodeGen -->|Compiler Prompt<br/>編譯器提示| README["README+Code+Docs<br/>文檔+代碼+說明"]
+```
+
+**Key Features | 核心特性:**
+- ✅ **Zero Single Point of Failure | 無單點故障** - 4-layer fallback ensures 100% uptime | 4層降級確保 100% 可用性
+- ✅ **Offline-First | 離線優先** - Works without internet | 無需網路即可運行
+- ✅ **BYOK (Bring Your Own Key) | 自帶密鑰** - Use your own API keys or local models | 使用您自己的 API 密鑰或本地模型
+- ✅ **180k Knowledge Base | 18萬知識庫** - Pre-loaded with 28 high-risk scenarios | 預載 28 個高風險場景
+
+---
+
 ## 🏆 Industrial Grade Certification | 工業級認證
 
 BlueMouse v6.6 has passed rigorous stress tests | BlueMouse v6.6 已通過嚴格的壓力測試：
