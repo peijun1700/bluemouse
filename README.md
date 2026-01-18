@@ -2,6 +2,9 @@
 ### The AI Safety Layer for Cursor & Claude | AI 代碼安全層
 **Stop Vibe Coding. Start Engineering. | 拒絕憑感覺寫代碼，回歸工程思維。**
 
+<img width="760" height="400" alt="badge" src="https://github.com/user-attachments/assets/821763fb-a778-4992-9afb-754d82d37a54" />
+
+
 [![Glama | bluemouse](https://glama.ai/mcp/servers/@peijun1700/bluemouse/badge)](https://glama.ai/mcp/servers/@peijun1700/bluemouse)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-blue?style=for-the-badge)](docs/reports/STATUS_REPORT_v6.6.md)
 [![License](https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge)](LICENSE)
