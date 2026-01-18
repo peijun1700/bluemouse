@@ -27,22 +27,30 @@ def generate_questions_inline(requirement: str, language: str = 'zh-TW') -> dict
     if any(re.search(p, requirement, re.IGNORECASE) for p in destructive_patterns):
         # 這是文案中提到的 "Blue Alert"
         print("\033[94m[BlueMouse] 🛑 Analyzing potential destructive command...\033[0m")
+        
+        # 根據語言選擇對應的文字
+        is_chinese = language == 'zh-TW'
+        
         return {
             "questions": [{
                 "id": "critical_stop",
-                "text": {
-                    "zh-TW": "⚠️ CRITICAL STOP: You are executing DROP without Environment Check. Is this PROD? (你正在執行刪除指令。你確定這不是正式環境嗎？)",
-                    "en-US": "⚠️ CRITICAL STOP: You are executing DROP without Environment Check. Is this PROD?"
-                },
-                "options": {
-                    "zh-TW": ["No, it's Prod (攔截)", "Yes, it's Dev (放行)"],
-                    "en-US": ["No, it's Prod (Block)", "Yes, it's Dev (Proceed)"]
-                },
+                "text": "⚠️ CRITICAL STOP: You are executing DROP without Environment Check. Is this PROD? (你正在執行刪除指令。你確定這不是正式環境嗎？)" if is_chinese else "⚠️ CRITICAL STOP: You are executing DROP without Environment Check. Is this PROD?",
+                "options": [
+                    {
+                        "label": "A. No, it's Prod (攔截)" if is_chinese else "A. No, it's Prod (Block)",
+                        "description": "立即停止執行,保護正式環境" if is_chinese else "Stop execution immediately to protect production",
+                        "risk_score": "安全" if is_chinese else "Safe",
+                        "value": "block"
+                    },
+                    {
+                        "label": "B. Yes, it's Dev (放行)" if is_chinese else "B. Yes, it's Dev (Proceed)",
+                        "description": "確認是開發環境,允許執行" if is_chinese else "Confirm it's development environment, allow execution",
+                        "risk_score": "高風險" if is_chinese else "High Risk",
+                        "value": "proceed"
+                    }
+                ],
                 "type": "critical_alert",
-                "risk_analysis": {
-                    "zh-TW": "高風險操作攔截",
-                    "en-US": "High Risk Operation Blocked"
-                }
+                "risk_analysis": "高風險操作攔截" if is_chinese else "High Risk Operation Blocked"
             }]
         }
 
