@@ -150,34 +150,37 @@ BlueMouse v6.6 has passed rigorous stress tests | BlueMouse v6.6 已通過嚴格
 
 ## 🚀 Quick Start | 快速開始
 
-### System Requirements | 系統需求
-- **Python**: 3.9+
-- **OS**: macOS / Linux / Windows
-- **Disk Space | 硬碟空間**: ~50MB
-- **Network | 網路**: Optional (works 100% offline) | 可選（可 100% 離線運行）
+### Three Steps. That's It. | 三步驟，就這樣。
 
-### Installation | 安裝
-
-#### Option 1: One-Click Start | 選項 1：一鍵啟動 (Recommended | 推薦)
-**Mac/Linux:**
 ```bash
-./Start
+# 1. Clone
+git clone https://github.com/peijun1700/bluemouse
+cd bluemouse
+
+# 2. Start
+./Start        # Mac/Linux
+Start.bat      # Windows
+
+# 3. Restart Cursor
+# BlueMouse is now protecting your code!
 ```
 
-**Windows:**
-```bash
-Start
-```
+**That's literally it.** No Docker, no config files, no cloud setup.  
+**就這樣。** 沒有 Docker、沒有配置檔、沒有雲端設定。
 
-#### Option 2: Manual Start | 選項 2：手動啟動
-**Mac/Linux:**
-```bash
-python3 -m pip install -r requirements.txt
-python3 start_v6.py
-```
+---
 
-**Windows:**
-```bash
+### Alternative: Use as Web Tool | 替代方案：當網頁工具用
+
+Don't have Cursor? Open `http://localhost:8001` after running `./Start`.  
+沒有 Cursor？執行 `./Start` 後打開 `http://localhost:8001`。
+
+---
+
+### Detailed Setup | 詳細設定
+
+For manual installation or troubleshooting, see [CURSOR_GUIDE.md](CURSOR_GUIDE.md).  
+手動安裝或疑難排解，請參考 [CURSOR_GUIDE.md](CURSOR_GUIDE.md)。
 python -m pip install -r requirements.txt
 python start_v6.py
 ```
