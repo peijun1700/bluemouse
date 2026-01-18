@@ -1,269 +1,267 @@
-# 🐭 BlueMouse (藍圖小老鼠) v6.6-industrial
-### The "Parasitic Logic Layer" for Cursor & Antigravity.
+# 🐭 BlueMouse v6.6
+### The AI Safety Layer for Cursor & Claude
 **Stop Vibe Coding. Start Engineering.**
-**讓您的 AI 寫程式前，先經過「前額葉」思考。**
-bluemouse.ai@gmail.com
-
 
 [![Glama | bluemouse](https://glama.ai/mcp/servers/@peijun1700/bluemouse/badge)](https://glama.ai/mcp/servers/@peijun1700/bluemouse)
-[![Status](https://img.shields.io/badge/Status-Global%20Mastery-blue?style=for-the-badge)](docs/reports/STATUS_REPORT_v6.6.md)
+[![Status](https://img.shields.io/badge/Status-Production%20Ready-blue?style=for-the-badge)](docs/reports/STATUS_REPORT_v6.6.md)
 [![License](https://img.shields.io/badge/License-AGPLv3-red?style=for-the-badge)](LICENSE)
 
-[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-green?style=for-the-badge)](LICENSE)
+[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-green?style=for-the-badge)](PRIVACY.md)
 [![Compatible](https://img.shields.io/badge/Works%20With-Cursor%20%7C%20Claude-purple?style=for-the-badge)](CURSOR_GUIDE.md)
+
+> **[中文文檔](README_ZH.md)** | **English** | **Contact:** bluemouse.ai@gmail.com
 
 ---
 
-## 🌟 Why BlueMouse? (為什麼你需要它？)
+## 🌟 Why BlueMouse?
 
-**[EN]** In the era of **Vibe Coding**, AI generates code faster than we can read. But even the best AI (Claude 3.5 / 4.5) hallucinates. **BlueMouse is your Airbag.** It is not another coding tool; it is a **Quality Gate** that stops bad code before it happens.
+In the era of **Vibe Coding**, AI generates code faster than we can read. But even the best AI (Claude 3.5 / 4.5) hallucinates. 
 
-**[TW]** 在 **Vibe Coding** 盛行的時代，AI 產生代碼的速度比我們閱讀的速度還快。但即使是最強的 AI (Claude 3.5 / 4.5) 也會出現邏輯幻覺。**BlueMouse 是您的安全氣囊 (Airbag)。** 它不是另一個寫代碼的工具，它是**「阻止爛代碼發生」**的守門員。
+**BlueMouse is your Airbag.** 
 
-### 🔥 Core Features (核心強項)
-*   **🦠 Parasitic Architecture (寄生架構)**
-    *   **[EN]** $0 Infrastructure Cost. It sits between you and the compiler, intercepting commands in <10ms.
-    *   **[TW]** **$0 營運成本**。它寄生於您的開發環境，以 <10ms 的速度攔截並過濾危險指令。
-*   **👆 One-Word Start (一鍵啟動)**
-    *   **[EN]** Just drag the folder into Cursor and type "**Start**". We inject `.cursorrules` automatically.
-    *   **[TW]** 只需要把資料夾拖進 Cursor，打一個字 **"Start"**。系統會自動讀取我們注入的隱形指令。
-*   **🧠 Socratic Logic Gate (蘇格拉底門禁)**
-    *   **[EN]** Before writing code, BlueMouse interviews the AI to ensure logic soundness.
-    *   **[TW]** 在 AI 動手寫 Code 之前，先進行「邏輯面試」。確保只有想清楚的代碼能被執行。
-*   **🛡️ 17-Layer Validation (17層軍規驗證)**
-    *   **[EN]** Code passes through 17 layers of AST parsing, type checking, and security audits.
-    *   **[TW]** 代碼生成後，必須通過 17 道邏輯閘（AST 解析、型別檢查、安全審計）才能交付。
+It's not another coding tool—it's a **Quality Gate** that stops bad code before it happens.
 
-### 🛡️ Enterprise Security (企業安全)
-*   **[隱私白皮書 (Privacy Whitepaper)](PRIVACY.md)**: 詳細說明 100% 本地化運行的技術細節。
-*   **[法規遵循 (License)](LICENSE)**: AGPLv3 授權，確保開源精神。
+### The Problem
+- ❌ AI generates code by "vibes" without deep logic validation
+- ❌ Edge cases are completely ignored
+- ❌ Tech debt explodes silently
+- ❌ You find bugs in production, not development
 
-### 🏆 Industrial Grade Certification (工業級認證)
-BlueMouse V6.0 has passed the following rigorous stress tests:
+### The Solution
+- ✅ **17-Layer Validation** - Every line passes through AST parsing, type checking, and security audits
+- ✅ **Socratic Interview** - AI must answer logic questions before generating code
+- ✅ **Zero Infrastructure Cost** - 100% local execution, no servers needed
+- ✅ **One-Word Start** - Just type "Start" in Cursor
+
+---
+
+## 🔥 Core Features
+
+### 🦠 Parasitic Architecture
+**$0 Infrastructure Cost.** BlueMouse sits between you and the compiler, intercepting commands in <10ms. No servers, no subscriptions, no cloud dependencies.
+
+### 🧠 Socratic Logic Gate
+Before writing code, BlueMouse interviews the AI with critical questions:
+- *"For concurrent orders, pessimistic lock or optimistic lock?"*
+- *"On payment failure, rollback immediately or retry 3 times?"*
+
+Forces you (and AI) to think before coding.
+
+### 🛡️ 17-Layer Validation
+Code generation passes through 17 logic gates:
+1. **Syntax** - Correctness
+2. **Type** - Static type checking (Pydantic/MyPy)
+3. **Security** - OWASP Top 10 scanning
+4. **Logic** - Business logic integrity
+5. **Performance** - Complexity analysis
+... and 12 more layers
+
+### 👆 One-Word Start
+```bash
+# Just drag the folder into Cursor and type:
+Start
+```
+BlueMouse automatically injects `.cursorrules` and starts protecting your code.
+
+---
+
+## 🏆 Industrial Grade Certification
+
+BlueMouse v6.6 has passed rigorous stress tests:
 
 | Test Protocol | Status | Description |
 | :--- | :--- | :--- |
-| **Antarctica Protocol** | ✅ **PASSED** | 100% functionality in offline/air-gapped environments. |
-| **Bilingual Acid Test** | ✅ **PASSED** | Seamless dynamic language switching (zh-TW / en-US). |
-| **Data Resilience** | ✅ **PASSED** | Validated against 28 high-concurrency/financial-risk scenarios. |
-| **Vetting Depth** | ✅ **17 LAYERS** | Code generation piped through 17 logic gates before output. |
-
-### 📐 System Architecture (系統架構)
-```mermaid
-graph TD
-    User["User Request"] --> L1{"L1: Antigravity Inline"}
-    L1 -->|Miss| L2{"L2: Ollama Local"}
-    L2 -->|Miss/Timeout| L3{"L3: Cloud API (BYOK)"}
-    L3 -->|Miss/Offline| L4["L4: Rule Engine Fallback"]
-    
-    subgraph "Hybrid Fusion Core"
-    L4 -->|Keyword Match| KB["Knowledge Base (180k Data)"]
-    KB --> Fusion["Hybrid Fusion Engine"]
-    end
-    
-    Fusion --> Socratic["Socratic Interview"]
-    Socratic --> User
-    
-    User -->|Answers| CodeGen["17-Layer Code Generator"]
-    CodeGen -->|Compiler Prompt| README["README+Code+Docs"]
-```
-
+| **Antarctica Protocol** | ✅ **PASSED** | 100% functionality in offline/air-gapped environments |
+| **Bilingual Acid Test** | ✅ **PASSED** | Seamless dynamic language switching (zh-TW / en-US) |
+| **Data Resilience** | ✅ **PASSED** | Validated against 28 high-concurrency/financial-risk scenarios |
+| **Security Hardening** | ✅ **PASSED** | XSS, SQL Injection, Path Traversal protection |
+| **Vetting Depth** | ✅ **17 LAYERS** | Code generation piped through 17 logic gates |
 
 ---
 
-## 📋 System Requirements (系統要求)
+## 🚀 Quick Start
 
-**[EN]** Before you start, make sure your system meets these requirements:
-- **Python**: 3.9 or higher (recommended: 3.9+)
-- **pip**: Python package manager (usually comes with Python)
-- **Operating System**: macOS, Linux, or Windows
-- **Disk Space**: ~500MB (including dependencies)
-- **Network**: Internet connection for initial setup (optional for offline use)
+### System Requirements
+- **Python**: 3.9+
+- **OS**: macOS / Linux / Windows
+- **Disk Space**: ~50MB
+- **Network**: Optional (works 100% offline)
 
-**[TW]** 開始前,請確認您的系統符合以下要求:
-- **Python**: 3.9 或更高版本 (推薦: 3.9+)
-- **pip**: Python 套件管理器 (通常隨 Python 安裝)
-- **作業系統**: macOS, Linux, 或 Windows
-- **硬碟空間**: ~500MB (包含依賴套件)
-- **網路**: 初次安裝需要網路 (離線使用可選)
+### Installation
 
----
-
-## 🚀 Getting Started (如何開始)
-
-我們為不同需求的用戶提供三種模式：
-
-### 🅰️ For Vibe Coders (我是新手/Vibe Coder)
-> *"我不想看代碼，我只想它能動，而且不要把我的電腦炸掉。"*
-
-#### 方法 1: 一鍵啟動 (推薦)
-👉 **直接點擊文件夾中的 `start_bluemouse.command` (Mac) 或 `start_bluemouse.bat` (Windows) 即可啟動。**
-
-#### 方法 2: 手動啟動 (如果一鍵腳本不工作)
-
+#### Option 1: One-Click Start (Recommended)
 **Mac/Linux:**
 ```bash
-# 1. 打開終端機 (Terminal)
-# 2. 進入 BlueMouse 資料夾
-cd /path/to/bluemouse_v6_release_final
+./start_bluemouse.command
+```
 
-# 3. 啟動服務
+**Windows:**
+```bash
+start_bluemouse.bat
+```
+
+#### Option 2: Manual Start
+**Mac/Linux:**
+```bash
+python3 -m pip install -r requirements.txt
 python3 start_v6.py
 ```
 
 **Windows:**
 ```bash
-# 1. 打開命令提示字元 (CMD) 或 PowerShell
-# 2. 進入 BlueMouse 資料夾
-cd C:\path\to\bluemouse_v6_release_final
-
-# 3. 啟動服務
+python -m pip install -r requirements.txt
 python start_v6.py
 ```
 
-**啟動成功後,你會看到:**
-```
-🐭 BlueMouse v6.6 啟動中...
-✅ Server running at http://localhost:8001
-```
-
-然後在瀏覽器打開 `http://localhost:8001` 即可使用!
-
-> **💡 常見問題:**
-> - **找不到 python3?** 試試 `python` 而不是 `python3`
-> - **權限錯誤?** Mac 用戶可能需要先執行 `chmod +x start_v6.py`
-> - **端口被占用?** 關閉其他使用 8001 端口的程式
-
-
-### 🅱️ For Professional Engineers (工程師模式)
-> *"我想整合 MCP 插件，並在我的專案中注入安全閥。"*
-
-#### 🔌 一鍵快速接入 (One-Click Setup)
-**Mac/Linux/Windows**:
-```bash
-python3 add_to_cursor.py
-```
-這會自動將 BlueMouse 接入您的 Cursor MCP 配置中。
-
-#### 📦 Smithery 接入 (Smithery.ai)
-本項目已配置 `smithery.yaml`，您可以直接在 [Smithery](https://smithery.ai/) 點擊 "Add to Cursor" 進行無感安裝。
-
-👉 **[MCP 完整指南 (MCP Submission Guide)](MCP_SUBMISSION_GUIDE.md)**
-👉 **[架構師手冊 (Usage Guide)](USAGE_GUIDE.md)**
-
-### 🅰️+🅱️ For Enterprise (企業級部署)
-> *"我們需要極致的安全性與離線環境。"*
-
-👉 **[隱私白皮書 (Privacy Whitepaper)](PRIVACY.md)**
-
-```bash
-# Developer Installation
-pip install -r requirements.txt
-python run_standalone.py
-```
+The server will start on `http://localhost:8001` and your browser will open automatically.
 
 ---
 
-## 🤝 Works Best With (完美支援)
+## 📖 Usage
 
-| Platform | Status | Guide |
-| :--- | :--- | :--- |
-| **Cursor** | ✅ Native Support | [Read Guide](CURSOR_GUIDE.md) |
-| **Windsurf** | ✅ Native Support | [Read Guide](WINDSURF_GUIDE.md) |
-| **Antigravity** | ✅ Native Support | Built-in (Agentic Loop) |
-| **VS Code** | ⚠️ Beta | Via MCP Extension |
-| **Others** | ✅ Universal | Any MCP-compliant client |
-
----
-
-## 📜 Philosophy (產品哲學)
-> **"Stop Vibe Coding. Start Engineering."**
-> (別再只是憑感覺寫 Code，開始真正的工程構建。)
-
-**[EN]** BlueMouse is open-source under **AGPLv3**. This means any corporation using this code *must* contribute back to the community.
-**[TW]** BlueMouse 是一個由 **AGPLv3** 保護的開源項目。這意味著任何使用此代碼的企業產品，都必須回饋社群。這是我們對抗大科技壟斷的武器。
-
-
-[**Read the License (閱讀授權)**](LICENSE)
-
----
-
-## 🔧 Troubleshooting (故障排除)
-
-### 問題 1: `python3: command not found`
-**解決方案:**
-```bash
-# 試試用 python 而不是 python3
-python --version
-
-# 如果還是不行,需要安裝 Python
-# macOS: brew install python@3.9
-# Ubuntu: sudo apt-get install python3.9
-# Windows: 從 python.org 下載安裝
+### 1. Enter Your Vision
+Describe what you want to build:
+```
+I want to build an e-commerce platform with user authentication
 ```
 
-### 問題 2: `pip install` 失敗
-**解決方案:**
-```bash
-# 方法 1: 升級 pip
-python3 -m pip install --upgrade pip
+### 2. Answer Socratic Questions
+BlueMouse will ask critical logic questions:
+- Database concurrency strategy?
+- Error handling approach?
+- Security measures?
 
-# 方法 2: 使用國內鏡像 (中國用戶)
+### 3. Get Validated Code
+After passing 17 layers of validation, download your project ZIP containing:
+- ✅ Source code
+- ✅ Architecture diagrams
+- ✅ Installation guide
+- ✅ Cost estimation
+- ✅ Validation report
+
+---
+
+## 🛡️ Enterprise Security
+
+### 100% Local Execution
+- ✅ No data leaves your machine
+- ✅ No cloud dependencies
+- ✅ No telemetry or tracking
+- ✅ Works in air-gapped environments
+
+### AGPLv3 License
+- ✅ Open source for transparency
+- ✅ Commercial use requires compliance
+- ✅ Protects against closed-source forks
+
+**Read our [Privacy Whitepaper](PRIVACY.md)** for technical details.
+
+---
+
+## 🔧 Troubleshooting
+
+### `python3: command not found`
+**Mac/Linux:**
+```bash
+brew install python3
+```
+**Windows:** Download from [python.org](https://www.python.org/downloads/)
+
+### `pip install` fails
+Try using a mirror:
+```bash
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-
-# 方法 3: 逐個安裝依賴
-pip install flask flask-cors
 ```
 
-### 問題 3: 端口 8001 被占用
-**錯誤訊息:** `Address already in use`
-
-**解決方案:**
+### Port 8001 already in use
 ```bash
-# macOS/Linux: 找出占用端口的程序
-lsof -i :8001
-kill -9 <PID>
-
-# Windows: 找出占用端口的程序
-netstat -ano | findstr :8001
-taskkill /PID <PID> /F
-
-# 或者修改 server.py 使用其他端口 (例如 8002)
+# Find and kill the process
+lsof -ti:8001 | xargs kill -9  # Mac/Linux
+netstat -ano | findstr :8001   # Windows
 ```
 
-### 問題 4: 權限錯誤 (Permission Denied)
-**解決方案:**
+### Permission denied
 ```bash
-# macOS/Linux: 給予執行權限
-chmod +x start_v6.py
-chmod +x start_bluemouse.command
-
-# 不要用 sudo 執行,這會導致其他問題
+chmod +x start_bluemouse.command  # Mac/Linux
 ```
 
-### 問題 5: 模組找不到 (ModuleNotFoundError)
-**解決方案:**
+### `ModuleNotFoundError`
 ```bash
-# 確認在正確的目錄
-cd /path/to/bluemouse_v6_release_final
-
-# 重新安裝依賴
-pip install -r requirements.txt
-
-# 檢查 Python 版本
-python3 --version  # 應該是 3.9+
+pip install -r requirements.txt --force-reinstall
 ```
 
-### 問題 6: 瀏覽器無法訪問 localhost:8001
-**解決方案:**
-1. 確認服務已啟動 (終端應該顯示 "Server running at...")
-2. 試試 `http://127.0.0.1:8001` 而不是 `localhost:8001`
-3. 檢查防火牆設置
-4. 試試其他瀏覽器
+### Browser doesn't open
+Manually navigate to: `http://localhost:8001`
 
-### 還是無法解決?
-📧 **聯繫我們:** bluemouse.ai@gmail.com  
-🐛 **提交 Issue:** [GitHub Issues](https://github.com/peijun1700/bluemouse/issues)
+**More help:** See [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
 
 ---
-*Built with ❤️ and Logic by [Peijun1700](https://github.com/peijun1700).*
+
+## 📚 Documentation
+
+- **[System Architecture](BlueMouse_v6.6_MASTER_ARCH.md)** - Technical deep dive
+- **[Changelog](CHANGELOG.md)** - Version history
+- **[Privacy Policy](PRIVACY.md)** - Data handling details
+- **[License](LICENSE)** - AGPLv3 terms
+- **[Cursor Integration Guide](CURSOR_GUIDE.md)** - IDE setup
+
+---
+
+## 🌍 Community
+
+- **GitHub Issues**: [Report bugs or request features](https://github.com/peijun1700/bluemouse/issues)
+- **Discussions**: [Join the conversation](https://github.com/peijun1700/bluemouse/discussions)
+- **Email**: bluemouse.ai@gmail.com
+
+---
+
+## 🎯 Roadmap
+
+### v6.6 (Current)
+- ✅ 17-Layer validation system
+- ✅ Socratic question library (22 questions, 10 categories)
+- ✅ Bilingual support (zh-TW / en-US)
+- ✅ Zero-cost parasitic architecture
+
+### v7.0 (Planned)
+- 🔄 Frontend template generation
+- 🔄 Custom question library
+- 🔄 Team collaboration features
+- 🔄 Enterprise audit logs
+
+---
+
+## 📄 License
+
+BlueMouse is licensed under **AGPLv3**.
+
+**What this means:**
+- ✅ Free for personal use
+- ✅ Free for open-source projects
+- ⚠️ Commercial use requires compliance (or contact us for licensing)
+
+See [LICENSE](LICENSE) for details.
+
+---
+
+## 🙏 Acknowledgments
+
+Built with:
+- **FastAPI** - Modern Python web framework
+- **Pydantic** - Data validation
+- **Anthropic Claude** - AI reasoning (optional)
+- **Ollama** - Local AI models (optional)
+
+---
+
+## 📊 Stats
+
+![GitHub stars](https://img.shields.io/github/stars/peijun1700/bluemouse?style=social)
+![GitHub forks](https://img.shields.io/github/forks/peijun1700/bluemouse?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/peijun1700/bluemouse?style=social)
+
+---
+
+**Made with ❤️ by developers who care about code quality**
+
+**Stop Vibe Coding. Start Engineering.** 🐭
