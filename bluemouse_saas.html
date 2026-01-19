@@ -810,6 +810,25 @@
                     Keys are stored securely in your browser (LocalStorage) and sent directly to your local backend.
                 </p>
             </div>
+
+            <!-- Custom Endpoint Settings (Issue #2) -->
+            <div style="margin-bottom: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <label style="display: block; margin-bottom: 8px; font-weight: 500;">🔧 Custom Endpoints
+                    (Optional)</label>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-secondary);">
+                        Ollama Endpoint
+                    </label>
+                    <input type="text" id="ollamaEndpointInput" class="input-neu"
+                        placeholder="http://localhost:11434/api/generate"
+                        style="width: 100%; font-family: monospace; font-size: 13px;">
+                    <p style="font-size: 11px; color: #6B7280; margin-top: 4px;">
+                        For custom Ollama port or remote server. Leave empty for default.
+                    </p>
+                </div>
+            </div>
+
             <div class="modal-actions">
                 <button class="btn-modal btn-modal-secondary" onclick="closeSettings()">Cancel</button>
                 <button class="btn-modal btn-modal-primary" onclick="saveSettings()">Save Configuration</button>
@@ -1652,13 +1671,22 @@
 
         function saveSettings() {
             const key = document.getElementById('apiKeyInput').value.trim();
+            const ollamaEndpoint = document.getElementById('ollamaEndpointInput').value.trim();
+
             if (key) {
                 localStorage.setItem('bluemouse_api_key', key);
-                showToast(currentLang === 'zh-TW' ? '✅ 設定已保存' : '✅ Settings Saved');
             } else {
                 localStorage.removeItem('bluemouse_api_key');
-                showToast(currentLang === 'zh-TW' ? '🗑️ Key 已清除' : '🗑️ Key Cleared');
             }
+
+            // Save custom Ollama endpoint (Issue #2)
+            if (ollamaEndpoint) {
+                localStorage.setItem('bluemouse_ollama_endpoint', ollamaEndpoint);
+            } else {
+                localStorage.removeItem('bluemouse_ollama_endpoint');
+            }
+
+            showToast(currentLang === 'zh-TW' ? '✅ 設定已保存' : '✅ Settings Saved');
             closeSettings();
         }
 

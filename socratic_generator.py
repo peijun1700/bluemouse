@@ -156,9 +156,12 @@ async def layer2_ollama(requirement: str, language: str) -> dict:
         # 調用生成API
         prompt = build_prompt(requirement, language)
         
+        # 支持自定義 Ollama 端點 (Issue #2)
+        ollama_endpoint = os.getenv('OLLAMA_ENDPOINT', 'http://localhost:11434/api/generate')
+        
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                'http://localhost:11434/api/generate',
+                ollama_endpoint,
                 json={
                     'model': 'qwen2.5:7b',
                     'prompt': prompt,
