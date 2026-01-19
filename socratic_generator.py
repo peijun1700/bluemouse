@@ -496,13 +496,38 @@ def detect_static_categories(req: str) -> list:
             if any(k.lower() in req_lower for k in keywords):
                 categories.add(module_name)
     except Exception as e:
-        # Fallback to hardcoded (backward compatible)
         print(f"Warning: Could not load knowledge_base.json: {e}")
-        # 保留原有的硬編碼邏輯作為 fallback
-        if any(k in req_lower for k in ['shop', 'buy', 'order', 'pay', 'store', '電商', '購物', '訂單', '支付', '賣', '買', '下單']):
-            categories.add('ecommerce')
-        if any(k in req_lower for k in ['bank', 'finance', 'money', 'ledger', '銀行', '金融', '帳本', '支付', 'pay']):
-            categories.add('fintech')
+
+    # [Legacy Support] - 保留原有的硬編碼邏輯以確保向後兼容
+    # 這些類別尚未遷移到 knowledge_base.json
+    if any(k in req_lower for k in ['shop', 'buy', 'order', 'pay', 'store', '電商', '購物', '訂單', '支付', '賣', '買', '下單']):
+        categories.add('ecommerce')
+        
+    if any(k in req_lower for k in ['chat', 'social', 'message', 'friend', 'post', 'feed', '社交', '聊天', '社群', '動態', '交友']):
+        categories.add('social')
+        
+    if any(k in req_lower for k in ['video', 'stream', 'music', 'blog', 'news', 'cms', '影音', '直播', '新聞', '內容', '文章', 'netflix', 'youtube', 'movie', 'film', 'spotify']):
+        categories.add('content')
+        
+    if any(k in req_lower for k in ['bitcoin', 'btc', 'eth', 'crypto', 'blockchain', 'wallet', 'coin', '區塊鏈', '比特幣', '加密貨幣']):
+        categories.add('crypto')
+
+    if any(k in req_lower for k in ['bank', 'finance', 'money', 'ledger', '銀行', '金融', '帳本', '支付', 'pay']):
+        categories.add('fintech')
+        
+    if any(k in req_lower for k in ['saas', 'crm', 'erp', 'tenant', 'b2b', '管理', '企業', '租戶']):
+        categories.add('saas')
+
+    if any(k in req_lower for k in ['doctor', 'hospital', 'patient', 'drug', 'prescription', 'medical', 'clinic', '醫生', '醫院', '病人', '藥', '處方', '診所', '醫療']):
+        categories.add('medical')
+
+    if any(k in req_lower for k in ['vote', 'election', 'poll', 'democracy', 'ballot', 'voting', '投票', '選舉', '民調', '民主']):
+        categories.add('voting')
+
+    # [Ethics Guard]
+    if any(k in req_lower for k in ['mlm', 'ponzi', 'scheme', 'downline', 'yield', 'return', 'profit', 'guarantee', 'scam', 'fraud', '龐氏', '傳銷', '直銷', '下線', '暴利', '保本', '高收益']):
+         if '30%' in req or '100%' in req or 'guarantee' in req_lower or '保證' in req or 'level' in req_lower or '層' in req:
+            categories.add('ethics')
         
     return list(categories) if categories else []
 

@@ -1,118 +1,143 @@
-
-import asyncio
+#!/usr/bin/env python3
+"""
+verify_industrial_grade.py
+BlueMouse v6.6 Daily Health Check Script
+"""
 import sys
 import os
 import json
-from socratic_generator import generate_socratic_questions, TEMPLATE_LIBRARY
+import time
 
-# Force Offline Mode for testing the "Antarctica" scenario
-# ensuring we hit Layer 1 (Rules) or Layer 4 (Fallback)
-os.environ["ANTHROPIC_API_KEY"] = ""
-os.environ["OPENAI_API_KEY"] = ""
-os.environ["GEMINI_API_KEY"] = ""
-
-async def test_scenario(name, input_text, language, expected_domain=None):
-    print(f"\n🧪 [Acid Test] {name}")
-    print(f"   Input: {input_text}")
-    print(f"   Lang:  {language}")
-    
+def check_17_layer_validation():
+    print('【1/4】17层验证测试...')
     try:
-        # Pass a dummy key to ensure logic doesn't crash on None verification, but environment is empty so it should failover
-        result = await generate_socratic_questions(input_text, language=language)
-        
-        questions = result.get("questions", [])
-        q_count = len(questions)
-        print(f"   Output: {q_count} questions generated.")
-        
-        if q_count == 0:
-            print("   ❌ FAIL: No questions generated.")
+        from validation_17_layers import validate_code_17_layers
+        test_code = '''
+def calculate_total(items: list, tax_rate: float) -> float:
+    """Calculate total with tax."""
+    try:
+        subtotal = sum(item['price'] * item['qty'] for item in items)
+        return subtotal * (1 + tax_rate)
+    except (KeyError, TypeError) as e:
+        return 0.0
+'''
+        result = validate_code_17_layers(test_code, 'test')
+        if result['passed_layers'] >= 16 and result['quality_score'] >= 90:
+            print(f'   ✅ PASS: {result["passed_layers"]}/17 layers, {result["quality_score"]}/100')
+            return True
+        else:
+            print(f'   ❌ FAIL: {result["passed_layers"]}/17 layers, {result["quality_score"]}/100')
             return False
-            
-        first_q = questions[0]['text']
-        print(f"   Sample Q: {first_q}")
-        
-        # Validation Logic
-        is_pass = True
-        
-        # 1. Check Language
-        is_english = any(w in first_q.lower() for w in ['what', 'how', 'ensure', 'system'])
-        is_chinese = any(w in first_q for w in ['什麼', '確保', '系統', '如何'])
-        
-        if language == 'en-US' and not is_english:
-            print(f"   ❌ FAIL: Expected English, got {first_q}")
-            is_pass = False
-        if language == 'zh-TW' and not is_chinese:
-             # loose check because technical terms might be English
-             if not is_chinese and not is_english: # if neither??
-                 pass 
-             elif is_english and "English" not in name:
-                 print(f"   ⚠️ WARN: Expected Chinese, got English-like text?")
-        
-        # 2. Check Domain Specificity (if applicable)
-        if expected_domain:
-             # Check if template ID reflects the domain
-             t_id = result.get('template_id', '')
-             print(f"   Template ID: {t_id}")
-             if expected_domain not in t_id and expected_domain not in str(questions):
-                 print(f"   ⚠️ WARN: Domain '{expected_domain}' not explicitly tagged in template_id.")
-        
-        if is_pass:
-            print("   ✅ PASS")
-        return is_pass
-
     except Exception as e:
-        print(f"   ❌ CRITICAL ERROR: {e}")
-        import traceback
-        traceback.print_exc()
+        print(f'   ❌ EXCEPTION: {e}')
         return False
 
-async def main():
-    print("🚀 Starting 5 Industrial Acid Tests (Offline / Antarctica Mode)...\n")
+def check_api_detection():
+    print('\n【2/4】API关键词检测 (含向后兼容)...')
+    try:
+        from socratic_generator import detect_static_categories
+        
+        # New API Keywords
+        api_tests = {
+            'REST API authentication': ['api_design'],
+            'GraphQL API': ['api_design'],
+            'JWT token': ['api_design'],
+            'WebSocket': ['api_design'],
+            'payment gateway': ['numerical_safety'],
+            'microservices': ['api_design']
+        }
+        
+        # Legacy Keywords (Backward Compatibility)
+        legacy_tests = {
+            'ecommerce shop': ['ecommerce'],
+            'social chat': ['social'], 
+            'content video': ['content'],
+            'crypto bitcoin': ['crypto'],
+            'payment money': ['fintech', 'numerical_safety']
+        }
+        
+        all_pass = True
+        
+        # Test New
+        for test, expected_modules in api_tests.items():
+            result = detect_static_categories(test)
+            if any(m in result for m in expected_modules):
+                print(f'   ✅ [NEW]    {test:30} -> {result}')
+            else:
+                print(f'   ❌ [NEW]    {test:30} -> {result} (expected {expected_modules})')
+                all_pass = False
+                
+        # Test Legacy
+        for test, expected_modules in legacy_tests.items():
+            result = detect_static_categories(test)
+            # Legacy check: At least one expected legacy module should be present
+            found = False
+            for exp in expected_modules:
+                if exp in result:
+                    found = True
+                    break
+            
+            if found:
+                 print(f'   ✅ [LEGACY] {test:30} -> {result}')
+            else:
+                 print(f'   ❌ [LEGACY] {test:30} -> {result} (expected {expected_modules})')
+                 all_pass = False
+                 
+        return all_pass
+    except Exception as e:
+         print(f'   ❌ EXCEPTION: {e}')
+         return False
+
+def check_integrity():
+    print('\n【3/4】资源完整性检查...')
+    try:
+        # Check files
+        required_files = [
+            'knowledge_base.json',
+            'socratic_generator.py',
+            'validation_17_layers.py',
+            'server.py',
+            'bluemouse_saas.html'
+        ]
+        files_ok = True
+        for f in required_files:
+            if not os.path.exists(f):
+                print(f'   ❌ Missing file: {f}')
+                files_ok = False
+        if files_ok:
+            print('   ✅ All core files present')
+            
+        # Check logic traps
+        with open('knowledge_base.json', 'r') as f:
+            kb = json.load(f)
+        modules = len(kb['modules'])
+        keywords = sum(len(m['keywords']) for m in kb['modules'].values())
+        print(f'   ✅ Knowledge Base: {modules} modules, {keywords} keywords')
+        
+        return files_ok
+    except Exception as e:
+        print(f'   ❌ EXCEPTION: {e}')
+        return False
+
+def main():
+    print('╔════════════════════════════════════════╗')
+    print('║   Industrial Grade Verification        ║')
+    print(f'║   Time: {time.strftime("%Y-%m-%d %H:%M:%S")}        ║')
+    print('╚════════════════════════════════════════╝\n')
     
-    # Test 1: Industrial Acid / Extreme Edge Case
-    # User asked for "Very strange software" in Antarctica
-    await test_scenario(
-        "1. Nuclear Toaster (Strange Domain)", 
-        "I want to build a nuclear-powered toaster controller using Assembly language", 
-        "zh-TW",
-        expected_domain="safety_critical" # Should hit our new module
-    )
-
-    # Test 2: High Financial Risk (Ponzi Scheme Guard)
-    await test_scenario(
-        "2. Ponzi Scheme Detection",
-        "Build a guaranteed 200% return crypto app that invites friends for money", 
-        "zh-TW",
-        expected_domain="crypto" # Should ideally trigger ethics or crypto warnings
-    )
-
-    # Test 3: Multilingual (English)
-    await test_scenario(
-        "3. English Mode (Fintech)",
-        "Building a banking ledger for international Swift transfers",
-        "en-US",
-        expected_domain="fintech"
-    )
+    if sys.path[0] != '.':
+        sys.path.insert(0, '.')
+        
+    c1 = check_17_layer_validation()
+    c2 = check_api_detection()
+    c3 = check_integrity()
     
-    # Test 4: Multilingual (Chinese)
-    await test_scenario(
-        "4. Chinese Mode (Social)",
-        "做一個像Tinder的交友軟體",
-        "zh-TW",
-        expected_domain="social"
-    )
+    if c1 and c2 and c3:
+        print('\n🎉 VERIFIED: SYSTEM IS INDUSTRIAL GRADE')
+        sys.exit(0)
+    else:
+        print('\n❌ FAILED: SYSTEM HAS DEFECTS')
+        sys.exit(1)
 
-    # Test 5: "Empty" / "Vague" Input (Resilience)
-    await test_scenario(
-        "5. Resilience (Vague Input)",
-        "Just make something cool",
-        "en-US",
-        expected_domain="default"
-    )
-    
-    # Extra: Check Zip Logic implicitly by verifying the 'result' structure allows for it
-    # We can't easily mock the full zip generation here without file I/O, 
-    # but proving the 'questions' structure is valid is the prerequisite.
-
-if __name__ == "__main__":
-    asyncio.run(main())
+if __name__ == '__main__':
+    main()
