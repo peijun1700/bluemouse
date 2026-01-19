@@ -5,3 +5,10 @@ startCommand:
     dockerfile: Dockerfile
     dockerBuildPath: .
 runtime: container
+capabilities:
+  - name: analyze_requirement_trap
+    description: Analyze requirements and generate Socratic questions to prevent logic flaws
+  - name: mmla_create_node
+    description: Create architecture nodes with 17-layer validation
+  - name: mmla_validate_code
+    description: Validate code through 17 security and quality layers
