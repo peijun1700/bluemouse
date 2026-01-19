@@ -477,39 +477,32 @@ def search_index(req: str) -> str:
 
 
 def detect_static_categories(req: str) -> list:
-    """找出所有符合的靜態類別 (回傳列表)"""
-    req = req.lower()
+    """找出所有符合的靜態類別 (回傳列表) - 動態從 knowledge_base.json 讀取"""
+    req_lower = req.lower()
     categories = set()
     
-    if any(k in req for k in ['shop', 'buy', 'order', 'pay', 'store', '電商', '購物', '訂單', '支付', '賣', '買', '下單']):
-        categories.add('ecommerce')
+    # 動態從 knowledge_base.json 讀取關鍵詞
+    try:
+        import json
+        import os
+        kb_path = os.path.join(os.path.dirname(__file__), 'knowledge_base.json')
+        with open(kb_path, 'r', encoding='utf-8') as f:
+            kb = json.load(f)
         
-    if any(k in req for k in ['chat', 'social', 'message', 'friend', 'post', 'feed', '社交', '聊天', '社群', '動態', '交友']):
-        categories.add('social')
-        
-    if any(k in req for k in ['video', 'stream', 'music', 'blog', 'news', 'cms', '影音', '直播', '新聞', '內容', '文章', 'netflix', 'youtube', 'movie', 'film', 'spotify']):
-        categories.add('content')
-        
-    if any(k in req for k in ['bitcoin', 'btc', 'eth', 'crypto', 'blockchain', 'wallet', 'coin', '區塊鏈', '比特幣', '加密貨幣']):
-        categories.add('crypto')
-
-    if any(k in req for k in ['bank', 'finance', 'money', 'ledger', '銀行', '金融', '帳本', '支付', 'pay']):
-        categories.add('fintech')
-        
-    if any(k in req for k in ['saas', 'crm', 'erp', 'tenant', 'b2b', '管理', '企業', '租戶']):
-        categories.add('saas')
-
-    if any(k in req for k in ['doctor', 'hospital', 'patient', 'drug', 'prescription', 'medical', 'clinic', '醫生', '醫院', '病人', '藥', '處方', '診所', '醫療']):
-        categories.add('medical')
-
-    if any(k in req for k in ['vote', 'election', 'poll', 'democracy', 'ballot', 'voting', '投票', '選舉', '民調', '民主']):
-        categories.add('voting')
-
-    # [Ethics Guard] - Dark Pattern Detection
-    if any(k in req for k in ['mlm', 'ponzi', 'scheme', 'downline', 'yield', 'return', 'profit', 'guarantee', 'scam', 'fraud', '龐氏', '傳銷', '直銷', '下線', '暴利', '保本', '高收益']):
-         # Only trigger if it looks seemingly high-risk financial
-         if '30%' in req or '100%' in req or 'guarantee' in req.lower() or '保證' in req or 'level' in req.lower() or '層' in req:
-            categories.add('ethics')
+        # 檢查每個模組的關鍵詞
+        for module_name, module_data in kb.get('modules', {}).items():
+            keywords = module_data.get('keywords', [])
+            # 檢查是否有任何關鍵詞匹配
+            if any(k.lower() in req_lower for k in keywords):
+                categories.add(module_name)
+    except Exception as e:
+        # Fallback to hardcoded (backward compatible)
+        print(f"Warning: Could not load knowledge_base.json: {e}")
+        # 保留原有的硬編碼邏輯作為 fallback
+        if any(k in req_lower for k in ['shop', 'buy', 'order', 'pay', 'store', '電商', '購物', '訂單', '支付', '賣', '買', '下單']):
+            categories.add('ecommerce')
+        if any(k in req_lower for k in ['bank', 'finance', 'money', 'ledger', '銀行', '金融', '帳本', '支付', 'pay']):
+            categories.add('fintech')
         
     return list(categories) if categories else []
 

@@ -107,6 +107,8 @@
         "price",
         "count",
         "number",
+        "payment",
+        "system",
         "計算",
         "金額",
         "買",
@@ -153,6 +155,103 @@
         }
       ]
     },
+    "api_design": {
+      "keywords": [
+        "REST",
+        "GraphQL",
+        "WebSocket",
+        "gRPC",
+        "endpoint",
+        "route",
+        "middleware",
+        "authentication",
+        "authorization",
+        "auth",
+        "token",
+        "JWT",
+        "OAuth",
+        "rate limit",
+        "throttle",
+        "API gateway",
+        "microservice",
+        "RESTful",
+        "接口",
+        "路由",
+        "認證",
+        "授權",
+        "限流"
+      ],
+      "questions": [
+        {
+          "id": "dd_api_auth",
+          "type": "single_choice",
+          "text": {
+            "zh-TW": "API 的身份驗證是安全的關鍵。您打算用哪種方式？",
+            "en": "API authentication is critical for security. Which approach will you use?"
+          },
+          "options": [
+            {
+              "label": {
+                "zh-TW": "A. JWT Token (無狀態)",
+                "en": "A. JWT Token (Stateless)"
+              },
+              "description": {
+                "zh-TW": "伺服器不需要記住誰登入了，擴展性好。但 Token 一旦發出就無法撤銷。",
+                "en": "Server doesn't need to remember who's logged in. Good scalability, but tokens cannot be revoked once issued."
+              },
+              "risk_score": "Token 洩漏風險",
+              "value": "jwt"
+            },
+            {
+              "label": {
+                "zh-TW": "B. Session (有狀態)",
+                "en": "B. Session (Stateful)"
+              },
+              "description": {
+                "zh-TW": "伺服器記住每個人的登入狀態。可以隨時踢人，但需要資料庫。",
+                "en": "Server remembers each user's login state. Can revoke anytime, but requires database."
+              },
+              "risk_score": "擴展性受限",
+              "value": "session"
+            }
+          ]
+        },
+        {
+          "id": "dd_api_rate_limit",
+          "type": "single_choice",
+          "text": {
+            "zh-TW": "如果有人惡意狂打 API（DDoS 攻擊），您的防護策略是？",
+            "en": "If someone maliciously floods your API (DDoS attack), what's your defense strategy?"
+          },
+          "options": [
+            {
+              "label": {
+                "zh-TW": "A. 限流 (Rate Limiting)",
+                "en": "A. Rate Limiting"
+              },
+              "description": {
+                "zh-TW": "每個 IP 每分鐘只能打 100 次。超過就暫時封鎖。",
+                "en": "Each IP can only make 100 requests per minute. Temporarily block if exceeded."
+              },
+              "risk_score": "誤傷正常用戶",
+              "value": "rate_limit"
+            },
+            {
+              "label": {
+                "zh-TW": "B. API Gateway + WAF",
+                "en": "B. API Gateway + WAF"
+              },
+              "description": {
+                "zh-TW": "用專業防火牆過濾惡意流量。成本較高但更安全。",
+                "en": "Use professional firewall to filter malicious traffic. Higher cost but more secure."
+              },
+              "risk_score": "成本增加",
+              "value": "waf"
+            }
+          ]
+        }
+      ]
+    },
     "safety_critical": {
       "keywords": [
         "nuclear",
@@ -187,7 +286,7 @@
                 "en": "A. Fail-Safe"
               },
               "description": {
-                "zh-TW": "立即切斷電源/停止運作，確保不會爆炸或害死人。(核電廠/醫療標準)",
+                "zh-TW": "立即切斷電源/停止運作,確保不會爆炸或害死人。(核電廠/醫療標準)",
                 "en": "Immediately cut power/stop operation. Ensure no explosion or casualty. (Nuclear/Medical standard)"
               },
               "risk_score": "系統停機風險",
@@ -208,6 +307,44 @@
           ]
         }
       ]
+    },
+    "ecommerce": {
+      "keywords": [
+        "shop",
+        "buy",
+        "order",
+        "store",
+        "電商",
+        "購物",
+        "訂單",
+        "賣",
+        "買",
+        "下單",
+        "ecommerce",
+        "inventory",
+        "stock",
+        "cart",
+        "checkout"
+      ],
+      "questions": []
+    },
+    "crypto": {
+      "keywords": [
+        "bitcoin",
+        "crypto",
+        "cryptocurrency",
+        "blockchain",
+        "比特幣",
+        "加密貨幣",
+        "區塊鏈",
+        "wallet",
+        "錢包",
+        "mining",
+        "挖礦",
+        "token",
+        "NFT"
+      ],
+      "questions": []
     }
   }
 }
