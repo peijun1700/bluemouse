@@ -32,7 +32,10 @@
                 "zh-TW": "雖然會慢一點點，但能保證進來的資料絕對沒問題。（推薦）",
                 "en": "Slightly slower, but guarantees data integrity. (Recommended)"
               },
-              "risk_score": "性能輕微折損",
+              "risk_score": {
+                "zh-TW": "性能輕微折損",
+                "en": "Slight Performance Loss"
+              },
               "value": "pydantic"
             },
             {
@@ -44,7 +47,10 @@
                 "zh-TW": "只在寫程式時幫你檢查，跑起來的時候不管。可能會出錯。",
                 "en": "Only checks during coding, ignored at runtime. May cause errors."
               },
-              "risk_score": "運行時錯誤風險",
+              "risk_score": {
+                "zh-TW": "運行時錯誤風險",
+                "en": "Runtime Error Risk"
+              },
               "value": "mypy"
             }
           ]
@@ -80,7 +86,10 @@
                 "zh-TW": "規定只能用哪幾個常用的。雖然麻煩，但最乾淨。",
                 "en": "Restrict to a few approved ones. Troublesome but cleanest."
               },
-              "risk_score": "開發效率降低",
+              "risk_score": {
+                "zh-TW": "開發效率降低",
+                "en": "Reduced Development Efficiency"
+              },
               "value": "whitelist"
             },
             {
@@ -92,7 +101,10 @@
                 "zh-TW": "先讓大家隨便寫，上線前再用工具掃描有沒有違規。",
                 "en": "Let developers write freely, then scan for violations before deployment."
               },
-              "risk_score": "架構腐化風險",
+              "risk_score": {
+                "zh-TW": "架構腐化風險",
+                "en": "Architecture Decay Risk"
+              },
               "value": "layer_check"
             }
           ]
@@ -136,7 +148,10 @@
                 "zh-TW": "保證一塊錢都不會少。計算速度慢一點，但這是銀行標準。",
                 "en": "Guarantees precision. Slightly slower, but it's the banking standard."
               },
-              "risk_score": "運算速度慢",
+              "risk_score": {
+                "zh-TW": "運算速度慢",
+                "en": "Slow Computation"
+              },
               "value": "decimal"
             },
             {
@@ -148,7 +163,10 @@
                 "zh-TW": "到處寫「如果不等於零」這種檢查。程式碼會變很醜。",
                 "en": "Add 'if not zero' checks everywhere. Makes code messy."
               },
-              "risk_score": "代碼維護困難",
+              "risk_score": {
+                "zh-TW": "代碼維護困難",
+                "en": "Code Maintenance Difficulty"
+              },
               "value": "defensive"
             }
           ]
@@ -199,7 +217,10 @@
                 "zh-TW": "伺服器不需要記住誰登入了，擴展性好。但 Token 一旦發出就無法撤銷。",
                 "en": "Server doesn't need to remember who's logged in. Good scalability, but tokens cannot be revoked once issued."
               },
-              "risk_score": "Token 洩漏風險",
+              "risk_score": {
+                "zh-TW": "Token 洩漏風險",
+                "en": "Token Leak Risk"
+              },
               "value": "jwt"
             },
             {
@@ -211,7 +232,10 @@
                 "zh-TW": "伺服器記住每個人的登入狀態。可以隨時踢人，但需要資料庫。",
                 "en": "Server remembers each user's login state. Can revoke anytime, but requires database."
               },
-              "risk_score": "擴展性受限",
+              "risk_score": {
+                "zh-TW": "擴展性受限",
+                "en": "Limited Scalability"
+              },
               "value": "session"
             }
           ]
@@ -233,7 +257,10 @@
                 "zh-TW": "每個 IP 每分鐘只能打 100 次。超過就暫時封鎖。",
                 "en": "Each IP can only make 100 requests per minute. Temporarily block if exceeded."
               },
-              "risk_score": "誤傷正常用戶",
+              "risk_score": {
+                "zh-TW": "誤傷正常用戶",
+                "en": "False Positives for Normal Users"
+              },
               "value": "rate_limit"
             },
             {
@@ -245,7 +272,10 @@
                 "zh-TW": "用專業防火牆過濾惡意流量。成本較高但更安全。",
                 "en": "Use professional firewall to filter malicious traffic. Higher cost but more secure."
               },
-              "risk_score": "成本增加",
+              "risk_score": {
+                "zh-TW": "成本增加",
+                "en": "Increased Cost"
+              },
               "value": "waf"
             }
           ]
@@ -289,7 +319,10 @@
                 "zh-TW": "立即切斷電源/停止運作,確保不會爆炸或害死人。(核電廠/醫療標準)",
                 "en": "Immediately cut power/stop operation. Ensure no explosion or casualty. (Nuclear/Medical standard)"
               },
-              "risk_score": "系統停機風險",
+              "risk_score": {
+                "zh-TW": "系統停機風險",
+                "en": "System Downtime Risk"
+              },
               "value": "fail_safe"
             },
             {
@@ -301,7 +334,10 @@
                 "zh-TW": "啟動備用系統繼續運作。飛機引擎通常用這個，因為不能空中停機。",
                 "en": "Activate backup system to continue operation. Aircraft engines use this (cannot stop mid-flight)."
               },
-              "risk_score": "設計極其複雜",
+              "risk_score": {
+                "zh-TW": "設計極其複雜",
+                "en": "Extremely Complex Design"
+              },
               "value": "fail_operational"
             }
           ]
@@ -385,7 +421,10 @@
                 "zh-TW": "開發最快，但資料庫被駭時所有密碼外洩。違反 GDPR。",
                 "en": "Fastest to develop, but all passwords leak if DB is hacked. Violates GDPR."
               },
-              "risk_score": "極高資安風險",
+              "risk_score": {
+                "zh-TW": "極高資安風險",
+                "en": "Extremely High Security Risk"
+              },
               "value": "plaintext"
             },
             {
@@ -397,7 +436,10 @@
                 "zh-TW": "看起來有加密，但可以用彩虹表暴力破解。2026 年已不安全。",
                 "en": "Looks encrypted, but can be cracked with rainbow tables. Unsafe in 2026."
               },
-              "risk_score": "中高風險",
+              "risk_score": {
+                "zh-TW": "中高風險",
+                "en": "Medium-High Risk"
+              },
               "value": "md5"
             },
             {
@@ -409,7 +451,10 @@
                 "zh-TW": "業界標準。慢速雜湊，防止暴力破解。符合 OWASP 建議。",
                 "en": "Industry standard. Slow hashing prevents brute force. OWASP compliant."
               },
-              "risk_score": "低風險",
+              "risk_score": {
+                "zh-TW": "低風險",
+                "en": "Low Risk"
+              },
               "value": "bcrypt"
             }
           ]
@@ -431,7 +476,10 @@
                 "zh-TW": "簡單但不安全。容易被 XSS 攻擊竊取。",
                 "en": "Simple but insecure. Vulnerable to XSS attacks."
               },
-              "risk_score": "高風險",
+              "risk_score": {
+                "zh-TW": "高風險",
+                "en": "High Risk"
+              },
               "value": "cookie"
             },
             {
@@ -443,7 +491,10 @@
                 "zh-TW": "安全且快速。但需要額外的 Redis 伺服器。",
                 "en": "Secure and fast. Requires additional Redis server."
               },
-              "risk_score": "低風險",
+              "risk_score": {
+                "zh-TW": "低風險",
+                "en": "Low Risk"
+              },
               "value": "redis"
             },
             {
@@ -455,7 +506,10 @@
                 "zh-TW": "不需要伺服器存 Session。但 Token 一旦發出就無法撤銷。",
                 "en": "No server-side session storage needed. But tokens can't be revoked once issued."
               },
-              "risk_score": "中風險",
+              "risk_score": {
+                "zh-TW": "中風險",
+                "en": "Medium Risk"
+              },
               "value": "jwt"
             }
           ]
@@ -477,7 +531,10 @@
                 "zh-TW": "限制每個 IP 每分鐘只能試 5 次。簡單有效。",
                 "en": "Limit each IP to 5 attempts per minute. Simple and effective."
               },
-              "risk_score": "低風險",
+              "risk_score": {
+                "zh-TW": "低風險",
+                "en": "Low Risk"
+              },
               "value": "rate_limit"
             },
             {
@@ -489,7 +546,10 @@
                 "zh-TW": "最安全，但用戶體驗差。可能降低轉換率。",
                 "en": "Most secure, but poor UX. May reduce conversion rate."
               },
-              "risk_score": "低風險，高摩擦",
+              "risk_score": {
+                "zh-TW": "低風險，高摩擦",
+                "en": "Low Risk, High Friction"
+              },
               "value": "captcha"
             },
             {
@@ -501,7 +561,10 @@
                 "zh-TW": "只允許特定 IP 訪問。適合內部系統，不適合公開 API。",
                 "en": "Only allow specific IPs. Good for internal systems, not public APIs."
               },
-              "risk_score": "中風險",
+              "risk_score": {
+                "zh-TW": "中風險",
+                "en": "Medium Risk"
+              },
               "value": "ip_whitelist"
             }
           ]

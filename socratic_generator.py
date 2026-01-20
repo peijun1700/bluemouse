@@ -421,7 +421,7 @@ def layer4_fallback(requirement: str, language: str) -> dict:
 def localize_question(q: dict, lang: str) -> dict:
     """
     Localize a data-driven question structure.
-    Resolves 'text', 'options[].label', 'options[].description' if they are dicts.
+    Resolves 'text', 'options[].label', 'options[].description', 'options[].risk_score' if they are dicts.
     """
     import copy
     q_copy = copy.deepcopy(q)
@@ -453,6 +453,9 @@ def localize_question(q: dict, lang: str) -> dict:
                 opt['label'] = resolve(opt['label'])
             if 'description' in opt:
                 opt['description'] = resolve(opt['description'])
+            # [FIX] Also localize risk_score
+            if 'risk_score' in opt:
+                opt['risk_score'] = resolve(opt['risk_score'])
                 
     return q_copy
 
