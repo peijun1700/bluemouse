@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/peijun1700-bluemouse-badge.png)](https://mseep.ai/app/peijun1700-bluemouse)
+
 # 🐭 BlueMouse v6.6
 ### The AI Safety Layer for Cursor & Claude | AI 代碼安全層
 **Stop Vibe Coding. Start Engineering. | 拒絕憑感覺寫代碼，回歸工程思維。**
